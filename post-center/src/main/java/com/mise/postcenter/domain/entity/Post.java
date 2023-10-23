@@ -1,7 +1,6 @@
 package com.mise.postcenter.domain.entity;
 
 import lombok.Data;
-import lombok.Generated;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,7 +19,7 @@ public class Post {
     private String title;
     private String content;
     private String photo;
-    private Long commentListId;
+    private List<Long> commentList;
     private Long userId;
     private Date createTime;
     private Date lastUpdateTime;

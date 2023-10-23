@@ -1,39 +1,28 @@
 package com.mise.postcenter.service;
 
 import com.mise.postcenter.domain.entity.Post;
-import com.mise.postcenter.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
-@Service
-public class PostService {
 
-    @Autowired
-    private PostRepository postRepository;
+public interface PostService {
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
-    }
+    public List<Post> getAllPosts();
 
-    public Post getPostById(Long id) {
-        return postRepository.findById(id).orElse(null);
-    }
+    Post getPostById(Long id);
 
-    public Post createPost(Post post) {
-        post.setCreateTime(new Date());
-        post.setLastUpdateTime(new Date());
-        return postRepository.save(post);
-    }
+    List<Post> getPostByTitleContaining(String keyword);
 
-    public void deletePost(Long id) {
-        postRepository.deleteById(id);
-    }
+    List<Post> getPostByTitleAndUserId(String title, Long userId);
 
-    public void updatePost(Post post) {
-        post.setLastUpdateTime(new Date());
-        postRepository.save(post);
-    }
+    Post createPost(Post post);
+
+    void deletePost(Long id);
+
+    void deleteAll();
+
+    void updatePost(Post post);
+
+
 }
