@@ -21,9 +21,9 @@ public class User {
     @TableField("password")
     private String password;
 
-    @TableField("email")
+    @TableField("phone")
     @Email
-    private String email;
+    private String phone;
 
     @TableField("create_time")
     private Date createTime;
