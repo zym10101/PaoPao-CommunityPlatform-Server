@@ -24,5 +24,6 @@ public interface PostService {
 
     void updatePost(Post post);
 
+    List<Post> getSimilarPost(Post targetPost, List<Post> postList, int topK);
 
 }
