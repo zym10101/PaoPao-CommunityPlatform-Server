@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -21,20 +22,38 @@ public class CommentServiceTests {
     @Test
     void testCreateComment() {
         Comment comment = new Comment();
-        comment.setCommentId(1L);
-        comment.setPostId(2L);
-        comment.setContent("不错！");
+        comment.setCommentId(300000L);
+        comment.setUserId(100006L);
+        comment.setContent("评论1");
+        comment.setPostId(200000L);
+        comment.setCreateTime(new Date());
         commentService.createComment(comment);
         comment = new Comment();
-        comment.setCommentId(2L);
-        comment.setPostId(2L);
-        comment.setContent("真不错！");
+        comment.setCommentId(300001L);
+        comment.setUserId(100007L);
+        comment.setContent("评论2");
+        comment.setPostId(200000L);
+        comment.setCreateTime(new Date());
+        commentService.createComment(comment);
+        comment = new Comment();
+        comment.setCommentId(300002L);
+        comment.setUserId(100008L);
+        comment.setContent("评论3");
+        comment.setPostId(200000L);
+        comment.setCreateTime(new Date());
         commentService.createComment(comment);
     }
 
     @Test
-    void testGetCommentIdsByPostId() {
-        List<Long> comments = commentService.getCommentIdsByPostId(2L);
-        System.out.println(comments);
+    void testGetCommentsByPostId() {
+        List<Long> commentIds = commentService.getCommentIdsByPostId(200000L);
+        for (Long id : commentIds) {
+            System.out.println(commentService.getCommentById(id).getContent());
+        }
+    }
+
+    @Test
+    void testDeleteAllComments() {
+        commentService.deleteAll();
     }
 }

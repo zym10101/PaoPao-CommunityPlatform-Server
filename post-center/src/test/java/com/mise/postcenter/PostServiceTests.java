@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -18,31 +20,23 @@ class PostServiceTests {
     @Test
     void testCreatePost() {
         Post post = new Post();
-        post.setPostId(1L);
-        post.setUserId(101L);
-        post.setTitle("哈哈哈");
+        post.setPostId(200000L);
+        post.setCommunityId(400000L);
+        post.setIsPublic(true);
+        post.setTagList(List.of("数据库", "安全"));
+        post.setTitle("题目");
+        post.setContent("内容");
+        post.setPhoto("图片地址");
+        post.setCommentList(List.of(300000L, 300001L, 300002L));
+        post.setUserId(100000L);
+        post.setCreateTime(new Date());
+        post.setLastUpdateTime(new Date());
         postService.createPost(post);
-        post = new Post();
-        post.setPostId(2L);
-        post.setUserId(101L);
-        post.setTitle("嘿嘿嘿");
-        postService.createPost(post);
-        post = new Post();
-        post.setPostId(3L);
-        post.setUserId(102L);
-        post.setTitle("嘿嘿嘿");
-        postService.createPost(post);
-        post = new Post();
-        post.setPostId(4L);
-        post.setUserId(103L);
-        post.setTitle("嘿嘿嘿哈哈哈");
-        postService.createPost(post);
-        System.out.println(post);
     }
 
     @Test
     void testDeletePost() {
-        postService.deletePost(2L);
+        postService.deletePost(200000L);
     }
 
     @Test
@@ -52,23 +46,9 @@ class PostServiceTests {
 
     @Test
     void testUpdatePost() {
-        Post post = postService.getPostById(1L);
+        Post post = postService.getPostById(200000L);
         postService.updatePost(post);
         System.out.println(post);
-    }
-
-
-    @Test
-    void testGetPostByTitle() {
-        System.out.println(postService.getPostByTitleAndUserId("嘿嘿嘿", 101L));
-    }
-
-    @Test
-    void testGetPostByTitleContaining() {
-        List<Post> posts = postService.getPostByTitleContaining("嘿");
-        for (Post post : posts) {
-            System.out.println(post);
-        }
     }
 
     @Test

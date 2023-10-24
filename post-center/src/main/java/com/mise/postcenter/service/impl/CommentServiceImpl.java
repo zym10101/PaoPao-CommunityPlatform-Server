@@ -29,4 +29,14 @@ public class CommentServiceImpl implements CommentService {
         }
         return list;
     }
+
+    @Override
+    public Comment getCommentById(Long id) {
+        return commentRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteAll() {
+        commentRepository.deleteAll();
+    }
 }
