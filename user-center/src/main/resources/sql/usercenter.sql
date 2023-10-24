@@ -8,7 +8,7 @@ CREATE TABLE `user`
     `user_id`         bigint       NOT NULL AUTO_INCREMENT,
     `user_name`       varchar(100) NOT NULL,
     `password`        varchar(100) NOT NULL,
-    `email`           varchar(100) NOT NULL,
+    `phone`           varchar(100) NOT NULL,
     `create_time`     date         NOT NULL,
     `last_login_time` date DEFAULT NULL,
     PRIMARY KEY (`user_id`)
