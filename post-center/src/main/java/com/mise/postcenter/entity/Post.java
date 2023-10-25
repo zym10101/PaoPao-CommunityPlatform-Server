@@ -23,7 +23,7 @@ public class Post {
     private String title;
     private String content;
     private String photo;
-    private List<Long> commentList;
+    private Integer commentNum;
     private Long userId;
     private Date createTime;
     private Date lastUpdateTime;

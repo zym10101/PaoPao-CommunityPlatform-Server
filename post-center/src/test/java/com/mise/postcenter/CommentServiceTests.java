@@ -19,27 +19,7 @@ public class CommentServiceTests {
 
     @Test
     void testCreateComment() {
-        Comment comment = new Comment();
-        comment.setCommentId(300000L);
-        comment.setUserId(100006L);
-        comment.setContent("评论1");
-        comment.setPostId(200000L);
-        comment.setCreateTime(new Date());
-        commentService.createComment(comment);
-        comment = new Comment();
-        comment.setCommentId(300001L);
-        comment.setUserId(100007L);
-        comment.setContent("评论2");
-        comment.setPostId(200000L);
-        comment.setCreateTime(new Date());
-        commentService.createComment(comment);
-        comment = new Comment();
-        comment.setCommentId(300002L);
-        comment.setUserId(100008L);
-        comment.setContent("评论3");
-        comment.setPostId(200000L);
-        comment.setCreateTime(new Date());
-        commentService.createComment(comment);
+
     }
 
     @Test

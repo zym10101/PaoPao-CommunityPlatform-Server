@@ -14,22 +14,51 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    /**
+     * 发布帖子
+     *
+     * @param postVO
+     * @return
+     */
     @PostMapping("/add")
-    public R addPost(@RequestBody PostVO postVO) {
+    public R<Post> addPost(@RequestBody PostVO postVO) {
         Post post = postService.createPost(postVO);
-        if (post != null) {
-            return R.success(post);
+        if (post == null) {
+            return R.error("帖子发布失败！");
         }
-        return R.error("帖子发布失败！");
+        return R.success(post);
     }
 
-    @GetMapping("/id")
-    public R getPost(@RequestParam String postId) {
-        Post post = postService.getPostById(Long.valueOf(postId));
-        if (post != null) {
-            return R.success(post);
+
+    /**
+     * 删除帖子
+     *
+     * @param postId
+     * @return
+     */
+    @PostMapping("/delete")
+    public R<String> deletePost(@RequestParam String postId) {
+        try {
+            postService.deletePost(Long.valueOf(postId));
+        } catch (Exception e) {
+            return R.error("帖子删除失败！");
         }
-        return R.error("帖子查询失败！");
+        return R.success("帖子删除成功！");
+    }
+
+    /**
+     * 根据postId查找帖子
+     *
+     * @param postId
+     * @return
+     */
+    @GetMapping("/get")
+    public R<Post> getPost(@RequestParam String postId) {
+        Post post = postService.getPostById(Long.valueOf(postId));
+        if (post == null) {
+            return R.error("帖子查询失败！");
+        }
+        return R.success(post);
     }
 
 }

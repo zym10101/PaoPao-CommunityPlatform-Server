@@ -19,4 +19,5 @@ public interface PostRepository extends MongoRepository<Post, Long> {
     List<Post> findByCreateTimeBetween(Date start, Date end); // 根据创建时间范围查询
 
     Post findFirstByOrderByCreateTimeDesc();
+
 }

@@ -30,7 +30,7 @@ class PostServiceTests {
     }
 
     @Test
-    void testGetLastPostId(){
+    void testGetLastPostId() {
         System.out.println(postService.getLastPostId());
     }
 

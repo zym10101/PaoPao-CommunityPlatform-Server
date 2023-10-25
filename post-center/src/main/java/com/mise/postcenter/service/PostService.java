@@ -1,5 +1,6 @@
 package com.mise.postcenter.service;
 
+import com.mise.postcenter.entity.Comment;
 import com.mise.postcenter.entity.Post;
 import com.mise.postcenter.vo.PostVO;
 
@@ -27,5 +28,4 @@ public interface PostService {
     Long getLastPostId();
 
     List<Post> getSimilarPost(Post targetPost, List<Post> postList, int topK);
-
 }
