@@ -1,4 +1,4 @@
-package com.mise.postcenter.domain.entity;
+package com.mise.postcenter.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

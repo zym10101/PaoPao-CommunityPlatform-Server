@@ -1,7 +1,7 @@
 package com.mise.postcenter.service;
 
-import com.mise.postcenter.domain.entity.Post;
-import org.springframework.stereotype.Service;
+import com.mise.postcenter.entity.Post;
+import com.mise.postcenter.vo.PostVO;
 
 import java.util.List;
 
@@ -16,13 +16,15 @@ public interface PostService {
 
     List<Post> getPostByTitleAndUserId(String title, Long userId);
 
-    Post createPost(Post post);
+    Post createPost(PostVO postVO);
 
     void deletePost(Long id);
 
     void deleteAll();
 
     void updatePost(Post post);
+
+    Long getLastPostId();
 
     List<Post> getSimilarPost(Post targetPost, List<Post> postList, int topK);
 

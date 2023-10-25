@@ -1,6 +1,6 @@
 package com.mise.postcenter.service.impl;
 
-import com.mise.postcenter.domain.entity.Comment;
+import com.mise.postcenter.entity.Comment;
 import com.mise.postcenter.repository.CommentRepository;
 import com.mise.postcenter.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;

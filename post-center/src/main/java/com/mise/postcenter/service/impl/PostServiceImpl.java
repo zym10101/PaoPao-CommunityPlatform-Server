@@ -1,8 +1,9 @@
 package com.mise.postcenter.service.impl;
 
-import com.mise.postcenter.domain.entity.Post;
+import com.mise.postcenter.entity.Post;
 import com.mise.postcenter.repository.PostRepository;
 import com.mise.postcenter.service.PostService;
+import com.mise.postcenter.vo.PostVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,16 @@ public class PostServiceImpl implements PostService {
         return postRepository.findByTitleAndUserId(title, userId);
     }
 
-    public Post createPost(Post post) {
+    public Post createPost(PostVO postVO) {
+        Post post = new Post();
+        post.setTagList(postVO.getTagList());
+        post.setContent(postVO.getContent());
+        post.setPhoto(postVO.getPhoto());
+        post.setCommunityId(Long.valueOf(postVO.getCommunityId()));
+        post.setIsPublic(postVO.getIsPublic());
+        post.setTitle(postVO.getTitle());
+        post.setUserId(Long.valueOf(postVO.getUserId()));
+        post.setPostId(getLastPostId() + 1);
         post.setCreateTime(new Date());
         post.setLastUpdateTime(new Date());
         return postRepository.save(post);
@@ -54,13 +64,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getSimilarPost(Post targetPost, List<Post> postList, int topK){
+    public Long getLastPostId() {
+        Post lastPost = postRepository.findFirstByOrderByCreateTimeDesc();
+        return lastPost.getPostId();
+    }
+
+    @Override
+    public List<Post> getSimilarPost(Post targetPost, List<Post> postList, int topK) {
         if (topK <= postList.size()) {
             return postList;
         }
         List<Integer> scoreList = new ArrayList<>();
         int keywordN = 10;
-        TFIDFAnalyzer tfidfAnalyzer=new TFIDFAnalyzer();
+        TFIDFAnalyzer tfidfAnalyzer = new TFIDFAnalyzer();
         List<Keyword> targetKeywords = tfidfAnalyzer.analyze(targetPost.getContent(), keywordN);
         if (targetKeywords.size() < 10) {
             keywordN = targetKeywords.size();

@@ -1,6 +1,6 @@
 package com.mise.postcenter.repository;
 
-import com.mise.postcenter.domain.entity.Comment;
+import com.mise.postcenter.entity.Comment;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

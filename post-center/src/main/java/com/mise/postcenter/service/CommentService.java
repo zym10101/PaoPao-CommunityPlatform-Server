@@ -1,9 +1,8 @@
 package com.mise.postcenter.service;
 
-import com.mise.postcenter.domain.entity.Comment;
+import com.mise.postcenter.entity.Comment;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CommentService {
 
