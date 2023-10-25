@@ -5,5 +5,5 @@ package com.mise.usercenter.service;
  * @date 2023/10/24 21:16
  */
 public interface SmsService {
-    void send(String phone) throws Exception;
+    boolean send(String phone) throws Exception;
 }

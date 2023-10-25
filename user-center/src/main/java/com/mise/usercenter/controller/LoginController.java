@@ -34,13 +34,13 @@ public class LoginController {
         return Response.success(200, "退出成功！");
     }
 
-//    @PostMapping("/register")
-//    public Response register(@RequestBody UserVO userVO) {
-//        boolean register = userService.register(userVO);
-//        if (register) {
-//            return Response.success(200, "注册成功！");
-//        } else {
-//            return Response.failed(999, "注册失败！");
-//        }
-//    }
+    @PostMapping("/register")
+    public Response register(@RequestBody UserVO userVO) {
+        String res = userService.register(userVO);
+        if (res.equals("注册成功")) {
+            return Response.success(200, "注册成功！");
+        } else {
+            return Response.failed(999, res);
+        }
+    }
 }
