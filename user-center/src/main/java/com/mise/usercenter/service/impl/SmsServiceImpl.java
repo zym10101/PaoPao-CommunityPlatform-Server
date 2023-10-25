@@ -7,9 +7,11 @@ import com.google.gson.Gson;
 import com.mise.usercenter.domain.entity.AliConfig;
 import com.mise.usercenter.mapper.AliMapper;
 import com.mise.usercenter.service.SmsService;
+import com.mise.usercenter.utils.RedisCache;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author whm
@@ -21,8 +23,11 @@ public class SmsServiceImpl implements SmsService {
 
     private Random random;
 
-    public SmsServiceImpl(AliMapper aliMapper) {
+    private RedisCache redisCache;
+
+    public SmsServiceImpl(AliMapper aliMapper, RedisCache redisCache) {
         this.random = new Random();
+        this.redisCache = redisCache;
 
         AliConfig aliConfig = aliMapper.selectById(1);
         com.aliyun.teaopenapi.models.Config config = new com.aliyun.teaopenapi.models.Config()
@@ -38,17 +43,26 @@ public class SmsServiceImpl implements SmsService {
     }
 
     @Override
-    public void send(String phone) throws Exception {
+    public boolean send(String phone) {
         int code = random.nextInt(100000, 999999);
-        System.out.println(code);
 
         SendSmsRequest request = new SendSmsRequest();
         request.phoneNumbers = phone;
         request.signName = "mise2023";
-        request.templateCode = "";
+        request.templateCode = "SMS_463628838";
         request.templateParam = JSONObject.toJSONString(new JSONObject().fluentPut("code", code));
-        SendSmsResponse response = client.sendSms(request);
-        System.out.println(new Gson().toJson(response.body));
-
+        SendSmsResponse response;
+        try {
+            response = client.sendSms(request);
+            if (response.body.code.equals("OK")) {
+                redisCache.setCacheObject(phone, String.valueOf(code), 60 * 5L, TimeUnit.SECONDS);
+                return true;
+            } else {
+                System.out.println(new Gson().toJson(response));
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

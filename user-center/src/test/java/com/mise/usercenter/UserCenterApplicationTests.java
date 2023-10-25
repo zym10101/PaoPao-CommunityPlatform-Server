@@ -19,10 +19,11 @@ class UserCenterApplicationTests {
 
     @Test
     void testSms() {
-        Random random = new Random();
-        int code = random.nextInt(100000, 999999);
-        System.out.println(code);
-        System.out.println(JSONObject.toJSONString(new JSONObject().fluentPut("code", code)));
+        try {
+            smsService.send("18051964286");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
