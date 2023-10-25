@@ -20,9 +20,9 @@ public class PostController {
         return R.success(post);
     }
 
-    @GetMapping("/{id}")
-    public R getPost(@PathVariable String id) {
-        Post post = postService.getPostById(Long.valueOf(id));
+    @GetMapping("/id")
+    public R getPost(@RequestParam String postId) {
+        Post post = postService.getPostById(Long.valueOf(postId));
         return R.success(post);
     }
 }
