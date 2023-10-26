@@ -46,3 +46,10 @@ spring:
           min-idle: 3
           # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
           max-wait: 1s
+  # 应用名称
+  application:
+    name: user-center
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

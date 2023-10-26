@@ -20,7 +20,7 @@ class UserCenterApplicationTests {
     @Test
     void testSms() {
         try {
-            smsService.send("18051964286");
+            smsService.send("19975106089");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

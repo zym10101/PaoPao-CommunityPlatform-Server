@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String register(UserVO userVO) {
-        String code = redisCache.getCacheObject(userVO.getPhone());
-        if (!userVO.getVerifyCode().equals(code)) {
+        String captcha = redisCache.getCacheObject(userVO.getPhone());
+        if (!userVO.getVerifyCode().equals(captcha)) {
             return "验证码错误";
         }
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
@@ -48,6 +48,14 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             return "用户名已存在";
         }
+
+        queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getPhone, userVO.getPhone());
+        user = userMapper.selectOne(queryWrapper);
+        if (user != null) {
+            return "该手机号已绑定用户";
+        }
+
         user = new User();
         user.setUserName(userVO.getUserName());
         user.setPassword(BCrypt.hashpw(userVO.getPassword()));
@@ -55,5 +63,22 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(new Date());
         userMapper.insert(user);
         return "注册成功";
+    }
+
+    @Override
+    public String update(UserVO userVO) {
+        String captcha = redisCache.getCacheObject(userVO.getPhone());
+        if (!userVO.getVerifyCode().equals(captcha)) {
+            return "验证码错误";
+        }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getPhone, userVO.getPhone());
+        User user = userMapper.selectOne(queryWrapper);
+        if (user == null) {
+            return "该手机号未绑定用户";
+        }
+        user.setPassword(BCrypt.hashpw(userVO.getPassword()));
+        userMapper.updateById(user);
+        return "修改密码成功";
     }
 }

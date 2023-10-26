@@ -24,3 +24,12 @@ CREATE TABLE `aliconfig` (
                              `id` int NOT NULL,
                              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- usercenter.`user-community` definition
+
+CREATE TABLE `user-community` (
+                                  `userId` bigint NOT NULL,
+                                  `community_list` text,
+                                  PRIMARY KEY (`userId`),
+                                  CONSTRAINT `user_community_FK` FOREIGN KEY (`userId`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
