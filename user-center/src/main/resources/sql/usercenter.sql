@@ -27,7 +27,7 @@ CREATE TABLE `aliconfig` (
 
 -- usercenter.`user-community` definition
 
-CREATE TABLE `user-community` (
+CREATE TABLE `user_community` (
                                   `userId` bigint NOT NULL,
                                   `community_list` text,
                                   PRIMARY KEY (`userId`),

@@ -1,17 +1,19 @@
 package com.mise.usercenter;
 
-import com.alibaba.fastjson.JSONObject;
 import com.mise.usercenter.service.SmsService;
+import com.mise.usercenter.service.UCService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Random;
 
 @SpringBootTest
 class UserCenterApplicationTests {
     @Autowired
     private SmsService smsService;
+
+    @Autowired
+    private UCService ucService;
 
     @Test
     void contextLoads() {
@@ -24,6 +26,11 @@ class UserCenterApplicationTests {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    void testJoinCommunity() {
+        ucService.joinCommunity(1L, 5L);
     }
 
 }

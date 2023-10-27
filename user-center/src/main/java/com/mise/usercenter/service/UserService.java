@@ -7,9 +7,11 @@ import com.mise.usercenter.domain.vo.UserVO;
  * @date 2023/10/24 15:54
  */
 public interface UserService {
-    boolean login(String userName, String password);
+    Long login(String userName, String password);
 
     String register(UserVO userVO);
 
     String update(UserVO userVO);
+
+    Long getUserId(String userName);
 }

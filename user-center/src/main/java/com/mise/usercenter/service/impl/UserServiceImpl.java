@@ -24,16 +24,16 @@ public class UserServiceImpl implements UserService {
     private final RedisCache redisCache;
 
     @Override
-    public boolean login(String userName, String password) {
+    public Long login(String userName, String password) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUserName, userName);
         User user = userMapper.selectOne(queryWrapper);
         if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
-            return false;
+            return null;
         }
         user.setLastLoginTime(new Date());
         userMapper.updateById(user);
-        return true;
+        return user.getUserId();
     }
 
     @Override
@@ -80,5 +80,14 @@ public class UserServiceImpl implements UserService {
         user.setPassword(BCrypt.hashpw(userVO.getPassword()));
         userMapper.updateById(user);
         return "修改密码成功";
+    }
+
+    @Override
+    public Long getUserId(String userName) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUserName, userName);
+        User user = userMapper.selectOne(queryWrapper);
+        if (user == null) return null;
+        return user.getUserId();
     }
 }

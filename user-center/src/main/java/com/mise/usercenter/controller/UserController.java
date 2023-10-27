@@ -20,9 +20,9 @@ public class UserController {
 
     @RequestMapping("/login")
     public Response login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
-        boolean login = userService.login(userName, password);
-        if (login) {
-            StpUtil.login(userName);
+        Long id = userService.login(userName, password);
+        if (id != null) {
+            StpUtil.login(id);
             SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
             return Response.success(200, "登录成功！", saTokenInfo);
         } else {

@@ -1,6 +1,7 @@
 package com.mise.usercenter.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -10,9 +11,9 @@ import lombok.Data;
  * @date 2023/10/26 21:43
  */
 @Data
-@TableName("user-community")
+@TableName("user_community")
 public class User_Community {
-    @TableField("userId")
+    @TableId("userId")
     private Long userId;
 
     @TableField("community_list")
