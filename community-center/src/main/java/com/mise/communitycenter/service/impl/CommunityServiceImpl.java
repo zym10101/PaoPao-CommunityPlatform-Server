@@ -1,5 +1,6 @@
 package com.mise.communitycenter.service.impl;
 
+import com.mise.communitycenter.service.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CommunityServiceImpl {
+public class CommunityServiceImpl implements CommunityService {
 
 }
