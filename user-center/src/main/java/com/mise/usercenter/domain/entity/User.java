@@ -30,4 +30,7 @@ public class User {
 
     @TableField("last_login_time")
     private Date lastLoginTime;
+
+    @TableField("photo")
+    private String photo;
 }

@@ -4,9 +4,11 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mise.usercenter.domain.vo.Response;
 import com.mise.usercenter.domain.vo.UserVO;
+import com.mise.usercenter.service.OssService;
 import com.mise.usercenter.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author whm
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    private final OssService ossService;
 
     @RequestMapping("/login")
     public Response login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
@@ -58,6 +62,20 @@ public class UserController {
             return Response.success(200, "修改密码成功！");
         } else {
             return Response.failed(999, res);
+        }
+    }
+
+    /**
+     * 更新用户头像
+     */
+    @PostMapping("/edit")
+    public Response edit(@RequestParam("userName") String userName, @RequestParam("newPhoto") MultipartFile file) {
+        String url = ossService.uploadFile(file);
+        String res = userService.editUserPhoto(userName, url);
+        if (res.equals("用户不存在")) {
+            return Response.failed(999, res);
+        } else {
+            return Response.success(200, res, url);
         }
     }
 }

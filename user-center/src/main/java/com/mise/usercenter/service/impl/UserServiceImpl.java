@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(BCrypt.hashpw(userVO.getPassword()));
         user.setPhone(userVO.getPhone());
         user.setCreateTime(new Date());
+        user.setPhoto("https://kiyotakawang.oss-cn-hangzhou.aliyuncs.com/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F.jpg");
         userMapper.insert(user);
         return "注册成功";
     }
@@ -89,5 +90,18 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectOne(queryWrapper);
         if (user == null) return null;
         return user.getUserId();
+    }
+
+    @Override
+    public String editUserPhoto(String userName, String url) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUserName, userName);
+        User user = userMapper.selectOne(queryWrapper);
+        if (user == null) {
+            return "用户不存在";
+        }
+        user.setPhoto(url);
+        userMapper.updateById(user);
+        return "修改用户头像成功";
     }
 }

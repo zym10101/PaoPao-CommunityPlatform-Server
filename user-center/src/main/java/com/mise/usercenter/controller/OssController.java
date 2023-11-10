@@ -14,7 +14,6 @@ public class OssController {
     @PostMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile file){
         String url = ossService.uploadFile(file);
-        System.out.println(url);
         return url;
     }
 }
