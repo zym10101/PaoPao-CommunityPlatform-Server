@@ -29,11 +29,6 @@ class PostServiceTests {
     }
 
     @Test
-    void testGetLastPostId() {
-        System.out.println(postService.getLastPostId());
-    }
-
-    @Test
     void testDeletePost() {
         postService.deletePost(200000L);
     }
