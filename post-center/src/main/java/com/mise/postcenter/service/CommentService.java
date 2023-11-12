@@ -1,7 +1,7 @@
 package com.mise.postcenter.service;
 
-import com.mise.postcenter.entity.Comment;
-import com.mise.postcenter.vo.CommentVO;
+import com.mise.postcenter.domain.entity.Comment;
+import com.mise.postcenter.domain.vo.CommentVO;
 
 import java.util.List;
 

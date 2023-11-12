@@ -1,18 +1,18 @@
 package com.mise.postcenter.service.impl;
 
-import com.mise.postcenter.entity.Comment;
-import com.mise.postcenter.entity.Post;
+import com.mise.postcenter.domain.entity.Like;
+import com.mise.postcenter.domain.entity.Post;
+import com.mise.postcenter.domain.vo.PostVO;
 import com.mise.postcenter.repository.CommentRepository;
+import com.mise.postcenter.repository.LikeRepository;
 import com.mise.postcenter.repository.PostRepository;
 import com.mise.postcenter.service.PostService;
-import com.mise.postcenter.vo.PostVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -23,7 +23,11 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private LikeRepository likeRepository;
+
     static final Long defaultFirstPostId = 200000L;
+    static final Long defaultFirstLikeId = 500000L;
 
     public List<Post> getAllPosts() {
         return postRepository.findAll();
@@ -72,13 +76,17 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
     }
 
-    @Override
     public Long getLastPostId() {
         Post lastPost = postRepository.findFirstByOrderByCreateTimeDesc();
         if (lastPost != null) {
             return lastPost.getPostId();
         }
         return defaultFirstPostId;
+    }
+
+    @Override
+    public List<Post> getPostsByCommunityId(Long communityId) {
+        return postRepository.findPostByCommunityId(communityId);
     }
 
     @Override
@@ -122,4 +130,41 @@ public class PostServiceImpl implements PostService {
         return similarPostList;
     }
 
+    @Override
+    public boolean up(Long userId, Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null) {
+            return false;
+        }
+        post.setLikeNum(post.getLikeNum() + 1);
+        postRepository.save(post);
+
+        Like like = new Like();
+        like.setLikeId(getLastLikeId() + 1);
+        like.setUserId(userId);
+        like.setPostId(postId);
+        like.setLikeTime(new Date());
+        likeRepository.save(like);
+        return true;
+    }
+
+
+    @Override
+    public boolean down(Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null) {
+            return false;
+        }
+        post.setDislikeNum(post.getDislikeNum() + 1);
+        postRepository.save(post);
+        return true;
+    }
+
+    public Long getLastLikeId() {
+        Like lastLike = likeRepository.findFirstByOrderByLikeTimeDesc();
+        if (lastLike != null) {
+            return lastLike.getLikeId();
+        }
+        return defaultFirstLikeId;
+    }
 }

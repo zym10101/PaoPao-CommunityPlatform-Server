@@ -1,6 +1,6 @@
 package com.mise.postcenter.repository;
 
-import com.mise.postcenter.entity.Post;
+import com.mise.postcenter.domain.entity.Post;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Date;
@@ -19,5 +19,7 @@ public interface PostRepository extends MongoRepository<Post, Long> {
     List<Post> findByCreateTimeBetween(Date start, Date end); // 根据创建时间范围查询
 
     Post findFirstByOrderByCreateTimeDesc();
+
+    List<Post> findPostByCommunityId(Long communityId);
 
 }

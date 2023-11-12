@@ -1,4 +1,4 @@
-package com.mise.postcenter.entity;
+package com.mise.postcenter.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +24,8 @@ public class Post {
     private String content;
     private String photo;
     private Integer commentNum;
+    private Integer likeNum;
+    private Integer dislikeNum;
     private Long userId;
     private Date createTime;
     private Date lastUpdateTime;

@@ -1,12 +1,11 @@
 package com.mise.postcenter.service.impl;
 
-import com.mise.postcenter.entity.Comment;
-import com.mise.postcenter.entity.Post;
+import com.mise.postcenter.domain.entity.Comment;
+import com.mise.postcenter.domain.entity.Post;
 import com.mise.postcenter.repository.CommentRepository;
 import com.mise.postcenter.repository.PostRepository;
 import com.mise.postcenter.service.CommentService;
-import com.mise.postcenter.service.PostService;
-import com.mise.postcenter.vo.CommentVO;
+import com.mise.postcenter.domain.vo.CommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
