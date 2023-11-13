@@ -5,11 +5,18 @@ import com.mise.postcenter.domain.entity.Comment;
 import com.mise.postcenter.domain.entity.Post;
 import com.mise.postcenter.domain.vo.CommentVO;
 import com.mise.postcenter.service.CommentService;
+import com.mise.postcenter.service.CommonService;
 import com.mise.postcenter.service.PostService;
 import com.mise.postcenter.domain.vo.PostVO;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -21,6 +28,13 @@ public class PostController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private CommonService commonService;
+
+
+    @Value("${obs.prefix}")
+    private String prefix;
 
     /**
      * 发布帖子
@@ -176,4 +190,50 @@ public class PostController {
         }
         return R.success(histories);
     }
+
+
+    /**
+     * 文件上传
+     * 函数参数名"file"需要与前端对应
+     *
+     * @param file xx
+     * @return xx
+     */
+    @PostMapping("/uploadPicture")
+    public R<String> upload(MultipartFile file) throws IOException {
+        String fileName = commonService.upload(file);
+        return R.success(prefix + fileName);
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param name     xx
+     * @param response xx
+     */
+    @GetMapping("/downloadPicture")
+    public void download(String name, HttpServletResponse response) throws IOException {
+
+        // 去除前缀
+        name = name.substring(prefix.length());
+
+        // 输出流将文件写回浏览器
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        // 设置响应类型
+        response.setContentType("image/jpeg");
+
+        InputStream inputStream = commonService.download(name);
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+
+        // 关闭资源
+        outputStream.close();
+        inputStream.close();
+    }
+
 }
