@@ -1,9 +1,11 @@
 package com.mise.postcenter.service.impl;
 
+import com.mise.postcenter.domain.entity.History;
 import com.mise.postcenter.domain.entity.Like;
 import com.mise.postcenter.domain.entity.Post;
 import com.mise.postcenter.domain.vo.PostVO;
 import com.mise.postcenter.repository.CommentRepository;
+import com.mise.postcenter.repository.HistoryRepository;
 import com.mise.postcenter.repository.LikeRepository;
 import com.mise.postcenter.repository.PostRepository;
 import com.mise.postcenter.service.PostService;
@@ -25,6 +27,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private LikeRepository likeRepository;
+
+    @Autowired
+    private HistoryRepository historyRepository;
 
     static final Long defaultFirstPostId = 200000L;
     static final Long defaultFirstLikeId = 500000L;
@@ -158,6 +163,30 @@ public class PostServiceImpl implements PostService {
         post.setDislikeNum(post.getDislikeNum() + 1);
         postRepository.save(post);
         return true;
+    }
+
+    @Override
+    public List<Post> getLikesByUserId(Long userId) {
+        List<Like> likes = likeRepository.findAllByUserId(userId);
+        ArrayList<Post> posts = new ArrayList<>();
+        for (Like like : likes) {
+            Long postId = like.getPostId();
+            Post post = postRepository.findById(postId).orElse(null);
+            posts.add(post);
+        }
+        return posts;
+    }
+
+    @Override
+    public List<Post> getHistoriesByUserId(Long userId) {
+        List<History> histories = historyRepository.findAllByUserId(userId);
+        ArrayList<Post> posts = new ArrayList<>();
+        for (History history : histories) {
+            Long postId = history.getPostId();
+            Post post = postRepository.findById(postId).orElse(null);
+            posts.add(post);
+        }
+        return posts;
     }
 
     public Long getLastLikeId() {

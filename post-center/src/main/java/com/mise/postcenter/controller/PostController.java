@@ -116,6 +116,13 @@ public class PostController {
         return R.success(comments);
     }
 
+    /**
+     * 点赞帖子
+     *
+     * @param userId
+     * @param postId
+     * @return
+     */
     @PostMapping("/up")
     public R<String> up(@RequestParam String userId, @RequestParam String postId) {
         boolean up = postService.up(Long.valueOf(userId), Long.valueOf(postId));
@@ -125,6 +132,12 @@ public class PostController {
         return R.error("点赞失败");
     }
 
+    /**
+     * 点踩帖子
+     *
+     * @param postId
+     * @return
+     */
     @PostMapping("/down")
     public R<String> down(@RequestParam String postId) {
         boolean down = postService.down(Long.valueOf(postId));
@@ -132,5 +145,35 @@ public class PostController {
             return R.success("点踩成功");
         }
         return R.error("点踩失败");
+    }
+
+    /**
+     * 查看该用户的所有点赞的帖子
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("/likes")
+    public R<List<Post>> likes(@RequestParam String userId) {
+        List<Post> likes = postService.getLikesByUserId(Long.valueOf(userId));
+        if (likes.isEmpty()) {
+            return R.error("该用户没有喜欢的帖子！");
+        }
+        return R.success(likes);
+    }
+
+    /**
+     * 查看该用户的所有浏览过的帖子
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("/histories")
+    public R<List<Post>> histories(@RequestParam String userId) {
+        List<Post> histories = postService.getHistoriesByUserId(Long.valueOf(userId));
+        if (histories.isEmpty()) {
+            return R.error("该用户没有浏览过的帖子！");
+        }
+        return R.success(histories);
     }
 }

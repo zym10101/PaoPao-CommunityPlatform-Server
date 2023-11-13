@@ -31,4 +31,7 @@ public interface PostService {
     boolean up(Long userId, Long postId);
 
     boolean down(Long postId);
+
+    List<Post> getLikesByUserId(Long userId);
+    List<Post> getHistoriesByUserId(Long userId);
 }
