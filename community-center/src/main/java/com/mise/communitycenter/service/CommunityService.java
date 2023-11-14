@@ -7,7 +7,7 @@ import com.mise.communitycenter.domain.vo.PostVO;
 import java.util.List;
 
 /**
- * @author whm
+ * @author whm,wlf
  * @date 2023/10/27 17:04
  */
 public interface CommunityService {
@@ -23,7 +23,7 @@ public interface CommunityService {
     /**
      * 获取社区成员
      * @param communityID 社区id
-     * @return 社区成员列表
+     * @return 社区成员id列表
      */
     List<MemberVO> getCommunityMembers(long communityID);
 
@@ -39,21 +39,23 @@ public interface CommunityService {
      * @param memberID 要删除的成员的id
      * @return 删除结果
      */
-    boolean deleteMember(long memberID);
+    boolean deleteMember(long communityID, long memberID);
+
 
     /**
      * 为社区添加成员
-     * @param memberVO 成员对象
-     * @return 添加结果
+     * @param communityID 社区id
+     * @param memberID 成员id
+     * @return 添加操作结果
      */
-    boolean addMember(MemberVO memberVO);
+    boolean addMember(long communityID, long memberID);
 
     /**
      * 展示当前热门社区, 以及用户可能感兴趣的社区
      * @param userID 用户id
      * @return 社区列表
      */
-    List<CommunityVO> showCommunities(long userID);
+    List<CommunityVO> showHotAndInterestingCommunities(long userID);
 
 
 
