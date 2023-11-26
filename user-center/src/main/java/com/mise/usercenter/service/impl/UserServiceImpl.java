@@ -2,7 +2,13 @@ package com.mise.usercenter.service.impl;
 
 import cn.dev33.satoken.secure.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.mise.usercenter.client.PostClient;
+import com.mise.usercenter.domain.entity.Comment;
+import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.entity.User;
+import com.mise.usercenter.domain.vo.CommentVO;
+import com.mise.usercenter.domain.vo.PostVO;
+import com.mise.usercenter.domain.vo.R;
 import com.mise.usercenter.domain.vo.UserVO;
 import com.mise.usercenter.mapper.UserMapper;
 import com.mise.usercenter.service.UserService;
@@ -22,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     private final RedisCache redisCache;
+
+    private final PostClient postClient;
 
     @Override
     public Long login(String userName, String password) {
@@ -103,5 +111,30 @@ public class UserServiceImpl implements UserService {
         user.setPhoto(url);
         userMapper.updateById(user);
         return "修改用户头像成功";
+    }
+
+    @Override
+    public String publish(PostVO postVO) {
+        R<Post> r = postClient.addPost(postVO);
+        if (r.getCode() == 1) return "发布成功";
+        else return "发布失败";
+    }
+
+    @Override
+    public boolean comment(CommentVO commentVO) {
+        R<Comment> r = postClient.addComment(commentVO);
+        return r.getCode() == 1;
+    }
+
+    @Override
+    public boolean up(String userId, String postId) {
+        R<String> r = postClient.up(userId, postId);
+        return r.getCode() == 1;
+    }
+
+    @Override
+    public boolean down(String postId) {
+        R<String> r = postClient.down(postId);
+        return r.getCode() == 1;
     }
 }

@@ -2,6 +2,8 @@ package com.mise.usercenter.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import com.mise.usercenter.domain.vo.CommentVO;
+import com.mise.usercenter.domain.vo.PostVO;
 import com.mise.usercenter.domain.vo.Response;
 import com.mise.usercenter.domain.vo.UserVO;
 import com.mise.usercenter.service.OssService;
@@ -77,5 +79,58 @@ public class UserController {
         } else {
             return Response.success(200, res, url);
         }
+    }
+
+    /**
+     * 用户发布帖子
+     */
+    @PostMapping("/publish")
+    public Response publish(@RequestBody PostVO postVO) {
+        if (StpUtil.isLogin()) {
+            String res = userService.publish(postVO);
+            if (res.equals("发布成功")) {
+                return Response.success(200, res);
+            } else {
+                return Response.failed(999, res);
+            }
+        }
+        return Response.failed(999, "用户未登录，无法发布帖子！");
+    }
+
+    /**
+     * 用户发布评论
+     */
+    @PostMapping("/comment")
+    public Response comment(@RequestBody CommentVO commentVO) {
+        if (StpUtil.isLogin()) {
+            boolean res = userService.comment(commentVO);
+            return res ? Response.success(200, "评论成功！") : Response.failed(999, "评论失败！");
+        }
+        return Response.failed(999, "用户未登录，无法评论！");
+    }
+
+    /**
+     * 用户点赞帖子
+     */
+    @PostMapping("/like")
+    public Response like(@RequestParam("postId") String postId) {
+        if (StpUtil.isLogin()) {
+            String userId = StpUtil.getLoginIdAsString();
+            boolean res = userService.up(userId, postId);
+            return res ? Response.success(200, "点赞成功！") : Response.failed(999, "点赞失败！");
+        }
+        return Response.failed(999, "用户未登录，无法点赞！");
+    }
+
+    /**
+     * 用户点踩帖子
+     */
+    @PostMapping("/dislike")
+    public Response dislike(@RequestParam("postId") String postId) {
+        if (StpUtil.isLogin()) {
+            boolean res = userService.down(postId);
+            return res ? Response.success(200, "点踩成功！") : Response.failed(999, "点踩失败！");
+        }
+        return Response.failed(999, "用户未登录，无法点踩！");
     }
 }

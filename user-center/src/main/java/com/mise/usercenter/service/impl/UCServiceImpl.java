@@ -50,4 +50,20 @@ public class UCServiceImpl implements UCService {
             log.info("用户成功加入社区");
         }
     }
+
+    @Override
+    public List<Long> getCommunityIdList(Long userId) {
+        LambdaQueryWrapper<User_Community> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User_Community::getUserId, userId);
+        User_Community uc = ucMapper.selectOne(queryWrapper);
+        if (uc == null) {
+            return null;
+        }
+        String communityList = uc.getCommunityList();
+        List<Long> communityIdList = new ArrayList<>(Arrays.stream(communityList.split(",")).map(Long::parseLong).toList());
+        if (!communityIdList.isEmpty()) {
+            return communityIdList;
+        }
+        return null;
+    }
 }
