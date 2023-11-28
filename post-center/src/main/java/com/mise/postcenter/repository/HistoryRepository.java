@@ -9,4 +9,6 @@ import java.util.List;
 public interface HistoryRepository extends MongoRepository<History, Long> {
 
     List<History> findAllByUserId(Long userId);
+
+    History findFirstByOrderByVisitTimeDesc();
 }

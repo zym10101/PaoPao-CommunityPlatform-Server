@@ -1,5 +1,6 @@
 package com.mise.postcenter.service;
 
+import com.mise.postcenter.domain.entity.History;
 import com.mise.postcenter.domain.entity.Post;
 import com.mise.postcenter.domain.vo.PostVO;
 
@@ -36,4 +37,6 @@ public interface PostService {
 
     List<Post> getLikesByUserId(Long userId);
     List<Post> getHistoriesByUserId(Long userId);
+
+    History createHistory(Long userId, Long postId);
 }
