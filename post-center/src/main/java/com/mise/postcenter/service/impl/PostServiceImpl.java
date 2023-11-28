@@ -95,6 +95,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> getPostsByUserId(String userId) {
+        return postRepository.findPostByUserId(Long.parseLong(userId));
+    }
+
+    @Override
     public List<Post> getSimilarPost(Post targetPost, List<Post> postList, int topK) {
         if (topK <= postList.size()) {
             return postList;

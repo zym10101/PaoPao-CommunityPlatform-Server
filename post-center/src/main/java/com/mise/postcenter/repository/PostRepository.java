@@ -22,4 +22,6 @@ public interface PostRepository extends MongoRepository<Post, Long> {
 
     List<Post> findPostByCommunityId(Long communityId);
 
+    List<Post> findPostByUserId(Long userId);
+
 }

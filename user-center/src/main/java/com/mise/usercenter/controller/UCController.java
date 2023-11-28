@@ -57,4 +57,18 @@ public class UCController {
         ucService.joinCommunity(userId, communityId);
         return Response.success(200, "加入社区成功！");
     }
+
+    /**
+     * 获取用户加入的社区id
+     */
+    @RequestMapping("/getCommunityIdList")
+    public Response getCommunityIdList() {
+        boolean isLogin = StpUtil.isLogin();
+        if (!isLogin) {
+            log.info("用户未登录，无法获取社区列表");
+            return Response.failed(999, "用户未登录，无法获取社区列表");
+        }
+        Long userId = StpUtil.getLoginIdAsLong();
+        return Response.success(200, "获取社区列表成功！", ucService.getCommunityIdList(userId));
+    }
 }

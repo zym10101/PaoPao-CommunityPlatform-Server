@@ -83,6 +83,21 @@ public class PostController {
         return R.success(posts);
     }
 
+    /**
+     * 根据userId查找该用户发布的所有帖子
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("getUserPosts")
+    public R<List<Post>> getUserPosts(@RequestParam("userId") String userId) {
+        List<Post> posts = postService.getPostsByUserId(userId);
+        if (posts.isEmpty()) {
+            return R.error("该用户没有发布过帖子");
+        }
+        return R.success(posts);
+    }
+
 
     /**
      * 发布评论

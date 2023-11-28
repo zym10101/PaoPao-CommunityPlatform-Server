@@ -7,7 +7,13 @@ spring:
       host: localhost       # MongoDB 主机地址
       port: 27017          # MongoDB 端口
       database: postcenter  # 数据库名称
-
+  # 应用名称
+  application:
+    name: post-center
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
 
 obs:
   endPoint: obs.cn-east-3.myhuaweicloud.com
