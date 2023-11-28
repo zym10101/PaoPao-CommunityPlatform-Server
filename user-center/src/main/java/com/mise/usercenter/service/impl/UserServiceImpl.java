@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author whm
@@ -137,4 +138,33 @@ public class UserServiceImpl implements UserService {
         R<String> r = postClient.down(postId);
         return r.getCode() == 1;
     }
+
+    @Override
+    public List<Post> likes(String userId) {
+        R<List<Post>> r = postClient.likes(userId);
+        if (r.getCode() == 1) {
+            return r.getData();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Post> posts(String userId) {
+        R<List<Post>> r = postClient.getUserPosts(userId);
+        if (r.getCode() == 1) {
+            return r.getData();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Post> history(String userId) {
+        R<List<Post>> r = postClient.histories(userId);
+        if (r.getCode() == 1) {
+            return r.getData();
+        }
+        return null;
+    }
+
+
 }

@@ -6,27 +6,35 @@ import com.mise.usercenter.domain.vo.CommentVO;
 import com.mise.usercenter.domain.vo.PostVO;
 import com.mise.usercenter.domain.vo.R;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author whm
  * @date 2023/11/26 18:22
  */
-@FeignClient("post-service")
-@RequestMapping("/post")
+@FeignClient("post-center")
 public interface PostClient {
-    @PostMapping("/addPost")
+    @PostMapping("/post/addPost")
     R<Post> addPost(@RequestBody PostVO postVO);
 
-    @PostMapping("/addComment")
+    @PostMapping("/post/addComment")
     R<Comment> addComment(@RequestBody CommentVO commentVO);
 
-    @PostMapping("/up")
+    @PostMapping("/post/up")
     R<String> up(@RequestParam String userId, @RequestParam String postId);
 
-    @PostMapping("/down")
+    @PostMapping("/post/down")
     R<String> down(@RequestParam String postId);
+
+    @GetMapping("/post/likes")
+    R<List<Post>> likes(@RequestParam String userId);
+
+    @GetMapping("/post/getUserPosts")
+    R<List<Post>> getUserPosts(@RequestParam("userId") String userId);
+
+    @GetMapping("/post/histories")
+    R<List<Post>> histories(@RequestParam String userId);
 }

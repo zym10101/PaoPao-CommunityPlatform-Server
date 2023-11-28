@@ -26,6 +26,8 @@ public interface PostService {
 
     List<Post> getPostsByCommunityId(Long communityId);
 
+    List<Post> getPostsByUserId(String userId);
+
     List<Post> getSimilarPost(Post targetPost, List<Post> postList, int topK);
 
     boolean up(Long userId, Long postId);

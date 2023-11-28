@@ -2,6 +2,7 @@ package com.mise.usercenter.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.vo.CommentVO;
 import com.mise.usercenter.domain.vo.PostVO;
 import com.mise.usercenter.domain.vo.Response;
@@ -11,6 +12,8 @@ import com.mise.usercenter.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @author whm
@@ -132,5 +135,47 @@ public class UserController {
             return res ? Response.success(200, "点踩成功！") : Response.failed(999, "点踩失败！");
         }
         return Response.failed(999, "用户未登录，无法点踩！");
+    }
+
+    /**
+     * 获取用户点赞过的帖子
+     */
+    @GetMapping("/likes")
+    public Response getLikes() {
+        if (StpUtil.isLogin()) {
+            String userId = StpUtil.getLoginIdAsString();
+            List<Post> posts = userService.likes(userId);
+            if (posts == null) return Response.success(200, "该用户没有喜欢的帖子！");
+            return Response.success(200, "获取用户点赞过的帖子成功！", posts);
+        }
+        return Response.failed(999, "用户未登录");
+    }
+
+    /**
+     * 获取用户发布的帖子
+     */
+    @GetMapping("/posts")
+    public Response getPosts() {
+        if (StpUtil.isLogin()) {
+            String userId = StpUtil.getLoginIdAsString();
+            List<Post> posts = userService.posts(userId);
+            if (posts == null) return Response.success(200, "用户未发布过帖子");
+            return Response.success(200, "获取用户发布的帖子成功", posts);
+        }
+        return Response.failed(999, "用户未登录");
+    }
+
+    /**
+     * 获取用户的浏览记录
+     */
+    @GetMapping("/history")
+    public Response getHistory() {
+        if (StpUtil.isLogin()) {
+            String userId = StpUtil.getLoginIdAsString();
+            List<Post> history = userService.history(userId);
+            if (history == null) return Response.success(200, "用户没有浏览过任何帖子");
+            return Response.success(200, "获取用户浏览记录成功", history);
+        }
+        return Response.failed(999, "用户未登录");
     }
 }
