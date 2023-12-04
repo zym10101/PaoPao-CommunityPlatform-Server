@@ -4,6 +4,7 @@ import com.mise.postcenter.common.R;
 import com.mise.postcenter.domain.entity.Comment;
 import com.mise.postcenter.domain.entity.Post;
 import com.mise.postcenter.domain.vo.CommentVO;
+import com.mise.postcenter.repository.HistoryRepository;
 import com.mise.postcenter.service.CommentService;
 import com.mise.postcenter.service.CommonService;
 import com.mise.postcenter.service.PostService;
@@ -32,6 +33,9 @@ public class PostController {
     @Autowired
     private CommonService commonService;
 
+    @Autowired
+    private HistoryRepository historyRepository;
+
 
     @Value("${obs.prefix}")
     private String prefix;
@@ -39,8 +43,8 @@ public class PostController {
     /**
      * 发布帖子
      *
-     * @param postVO
-     * @return
+     * @param postVO 帖子信息
+     * @return 发布结果
      */
     @PostMapping("/addPost")
     public R<Post> addPost(@RequestBody PostVO postVO) {
@@ -55,8 +59,8 @@ public class PostController {
     /**
      * 删除帖子
      *
-     * @param postId
-     * @return
+     * @param postId 帖子id
+     * @return 删除结果
      */
     @PostMapping("/deletePost")
     public R<String> deletePost(@RequestParam String postId) {
@@ -69,13 +73,29 @@ public class PostController {
     }
 
     /**
+     * 获取帖子
+     *
+     * @param postId 帖子id
+     * @return 帖子
+     */
+    @GetMapping("/getPost")
+    public R<Post> getPost(@RequestParam String userId, @RequestParam String postId) {
+        Post post = postService.getPostById(Long.valueOf(postId));
+        if (post == null) {
+            return R.error("该帖子不存在！");
+        }
+        historyRepository.save(postService.createHistory(Long.valueOf(userId), Long.valueOf(postId)));
+        return R.success(post);
+    }
+
+    /**
      * 根据communityId查找其中的所有帖子
      *
-     * @param communityId
-     * @return
+     * @param communityId 社区id
+     * @return 帖子列表
      */
-    @GetMapping("/getPosts")
-    public R<List<Post>> getPosts(@RequestParam String communityId) {
+    @GetMapping("/getAllPosts")
+    public R<List<Post>> getAllPosts(@RequestParam String communityId) {
         List<Post> posts = postService.getPostsByCommunityId(Long.valueOf(communityId));
         if (posts.isEmpty()) {
             return R.error("该社区中没有帖子！");
@@ -86,8 +106,8 @@ public class PostController {
     /**
      * 根据userId查找该用户发布的所有帖子
      *
-     * @param userId
-     * @return
+     * @param userId 用户id
+     * @return 帖子列表
      */
     @GetMapping("getUserPosts")
     public R<List<Post>> getUserPosts(@RequestParam("userId") String userId) {
@@ -102,8 +122,8 @@ public class PostController {
     /**
      * 发布评论
      *
-     * @param commentVO
-     * @return
+     * @param commentVO 评论信息
+     * @return 发布结果
      */
     @PostMapping("/addComment")
     public R<Comment> addComment(@RequestBody CommentVO commentVO) {
@@ -117,8 +137,8 @@ public class PostController {
     /**
      * 删除评论
      *
-     * @param commentId
-     * @return
+     * @param commentId 评论id
+     * @return 删除结果
      */
     @PostMapping("/deleteComment")
     public R<String> deleteComment(@RequestParam String commentId) {
@@ -133,8 +153,8 @@ public class PostController {
     /**
      * 根据postId查询这条帖子中的评论
      *
-     * @param postId
-     * @return
+     * @param postId 帖子id
+     * @return 评论列表
      */
     @GetMapping("/getComments")
     public R<List<Comment>> getComments(@RequestParam String postId) {
@@ -148,9 +168,9 @@ public class PostController {
     /**
      * 点赞帖子
      *
-     * @param userId
-     * @param postId
-     * @return
+     * @param userId 用户id
+     * @param postId 帖子id
+     * @return 点赞结果
      */
     @PostMapping("/up")
     public R<String> up(@RequestParam String userId, @RequestParam String postId) {
@@ -164,8 +184,8 @@ public class PostController {
     /**
      * 点踩帖子
      *
-     * @param postId
-     * @return
+     * @param postId 帖子id
+     * @return 点踩结果
      */
     @PostMapping("/down")
     public R<String> down(@RequestParam String postId) {
@@ -179,8 +199,8 @@ public class PostController {
     /**
      * 查看该用户的所有点赞的帖子
      *
-     * @param userId
-     * @return
+     * @param userId 用户id
+     * @return 帖子列表
      */
     @GetMapping("/likes")
     public R<List<Post>> likes(@RequestParam String userId) {
@@ -194,8 +214,8 @@ public class PostController {
     /**
      * 查看该用户的所有浏览过的帖子
      *
-     * @param userId
-     * @return
+     * @param userId 用户id
+     * @return 帖子列表
      */
     @GetMapping("/histories")
     public R<List<Post>> histories(@RequestParam String userId) {

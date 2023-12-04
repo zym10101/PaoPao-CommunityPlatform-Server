@@ -194,6 +194,24 @@ public class PostServiceImpl implements PostService {
         return posts;
     }
 
+    @Override
+    public History createHistory(Long userId, Long postId) {
+        History history = new History();
+        history.setHistoryId(getLastHistoryId() + 1);
+        history.setUserId(userId);
+        history.setPostId(postId);
+        history.setVisitTime(new Date());
+        return historyRepository.save(history);
+    }
+
+    private Long getLastHistoryId() {
+        History lastHistory = historyRepository.findFirstByOrderByVisitTimeDesc();
+        if (lastHistory != null) {
+            return lastHistory.getHistoryId();
+        }
+        return defaultFirstLikeId;
+    }
+
     public Long getLastLikeId() {
         Like lastLike = likeRepository.findFirstByOrderByLikeTimeDesc();
         if (lastLike != null) {
