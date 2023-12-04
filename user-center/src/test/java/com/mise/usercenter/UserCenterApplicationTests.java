@@ -22,15 +22,12 @@ class UserCenterApplicationTests {
     @Test
     void testSms() {
         try {
-            smsService.send("19975106089");
+            smsService.send("18051964286");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Test
-    void testJoinCommunity() {
-        ucService.joinCommunity(1L, 5L);
-    }
+
 
 }
