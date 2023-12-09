@@ -1,5 +1,6 @@
 package com.mise.communitycenter.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mise.communitycenter.domain.entity.Community;
 import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.domain.vo.MemberVO;
@@ -8,6 +9,7 @@ import com.mise.communitycenter.mapper.CommunityMapper;
 import com.mise.communitycenter.service.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,5 +92,27 @@ public class CommunityServiceImpl implements CommunityService {
     public List<CommunityVO> showHotAndInterestingCommunities(long userID) {
         // TODO: 调用大数据模块提供的接口进行社区推荐
         return null;
+    }
+
+    @Override
+    public CommunityVO getCommunityById(long communityId) {
+        QueryWrapper<Community> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(Community::getCommunityId, communityId);
+        try {
+            Community community = communityMapper.selectOne(wrapper);
+            if(community == null) {
+                log.error("No such communityId: {}", communityId);
+                return null;
+            }
+            CommunityVO communityVO = new CommunityVO();
+            communityVO.setCommunityID(community.getCommunityId());
+            communityVO.setCreateTime(community.getCreateTime());
+            communityVO.setName(community.getName());
+            communityVO.setPublic(community.isPublic());
+            return communityVO;
+        } catch (TooManyResultsException e) {
+            log.error("Duplicated communityId: {}", communityId);
+            return null;
+        }
     }
 }

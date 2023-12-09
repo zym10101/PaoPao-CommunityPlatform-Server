@@ -63,5 +63,14 @@ public class CommunityController {
         return Response.success();
     }
 
+    @GetMapping("/getCommunityById")
+    public Response getCommunityById(@RequestParam long communityID) {
+        CommunityVO community = communityService.getCommunityById(communityID);
+        if(community == null) {
+            return Response.failed("查询社区信息失败");
+        }
+        return Response.success(community);
+    }
+
 
 }

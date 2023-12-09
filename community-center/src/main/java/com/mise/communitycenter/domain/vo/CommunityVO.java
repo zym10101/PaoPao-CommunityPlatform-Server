@@ -26,6 +26,8 @@ public class CommunityVO {
      */
     private Date createTime;
 
-
-
+    /**
+     * 社区名称
+     */
+    private String name;
 }

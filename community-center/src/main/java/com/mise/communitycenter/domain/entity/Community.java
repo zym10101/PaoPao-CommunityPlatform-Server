@@ -23,4 +23,7 @@ public class Community {
 
     @TableField("create_time")
     private Date createTime;
+
+    @TableField("name")
+    private String name;
 }

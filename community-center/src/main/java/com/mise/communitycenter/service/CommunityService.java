@@ -58,5 +58,10 @@ public interface CommunityService {
     List<CommunityVO> showHotAndInterestingCommunities(long userID);
 
 
-
+    /**
+     * 根据社区id查询社区信息
+     * @param communityId 社区id
+     * @return 社区信息
+     */
+    CommunityVO getCommunityById(long communityId);
 }
