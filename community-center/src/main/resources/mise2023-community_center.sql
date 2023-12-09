@@ -31,7 +31,7 @@ CREATE TABLE `application` (
   `handle_time` datetime DEFAULT NULL,
   `handler_id` bigint DEFAULT NULL,
   PRIMARY KEY (`application_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
-INSERT INTO `application` VALUES (2,1,2,'Approved','2023-11-14 22:30:46','2023-11-15 00:27:33',10086),(3,1,3,'Declined','2023-11-14 22:30:49','2023-11-15 00:27:47',10081),(4,1,4,'Pending','2023-11-14 22:30:51',NULL,0);
+INSERT INTO `application` VALUES (2,1,2,'Approved','2023-11-14 22:30:46','2023-11-15 00:27:33',10086),(3,1,3,'Declined','2023-11-14 22:30:49','2023-11-15 00:27:47',10081),(4,1,4,'Pending','2023-11-14 22:30:51',NULL,0),(5,2,2,'Pending','2023-11-14 22:30:51',NULL,0),(6,4,3,'Pending','2023-11-14 22:30:51',NULL,0);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,6 +55,7 @@ CREATE TABLE `community` (
   `community_id` int NOT NULL AUTO_INCREMENT,
   `is_public` tinyint(1) NOT NULL,
   `create_time` date NOT NULL,
+  `name` varchar(255) NOT NULL COMMENT '社区名字',
   PRIMARY KEY (`community_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -65,7 +66,7 @@ CREATE TABLE `community` (
 
 LOCK TABLES `community` WRITE;
 /*!40000 ALTER TABLE `community` DISABLE KEYS */;
-INSERT INTO `community` VALUES (2,1,'2023-11-01'),(3,1,'2023-11-02'),(4,1,'2023-11-03'),(5,1,'2023-11-04'),(6,1,'2023-11-05'),(7,1,'2023-11-06'),(8,1,'2023-11-07'),(9,1,'2023-11-08'),(10,1,'2023-11-09'),(11,1,'2023-11-10'),(12,1,'2023-11-11'),(13,1,'2023-11-12'),(14,1,'2023-11-13'),(15,1,'2023-11-14'),(16,1,'2023-11-15'),(17,1,'2023-11-16'),(18,1,'2023-11-17'),(19,1,'2023-11-18'),(20,1,'2023-11-19'),(21,1,'2023-11-20'),(22,1,'2023-11-21'),(23,1,'2023-11-22'),(24,1,'2023-11-23'),(25,1,'2023-11-24'),(26,1,'2023-11-25'),(27,1,'2023-11-26'),(28,1,'2023-11-27'),(29,1,'2023-11-28'),(30,1,'2023-11-29'),(31,1,'2023-11-30');
+INSERT INTO `community` VALUES (2,1,'2023-11-01',''),(3,1,'2023-11-02',''),(4,1,'2023-11-03',''),(5,1,'2023-11-04',''),(6,1,'2023-11-05',''),(7,1,'2023-11-06',''),(8,1,'2023-11-07',''),(9,1,'2023-11-08',''),(10,1,'2023-11-09',''),(11,1,'2023-11-10',''),(12,1,'2023-11-11',''),(13,1,'2023-11-12',''),(14,1,'2023-11-13',''),(15,1,'2023-11-14',''),(16,1,'2023-11-15',''),(17,1,'2023-11-16',''),(18,1,'2023-11-17',''),(19,1,'2023-11-18',''),(20,1,'2023-11-19',''),(21,1,'2023-11-20',''),(22,1,'2023-11-21',''),(23,1,'2023-11-22',''),(24,1,'2023-11-23',''),(25,1,'2023-11-24',''),(26,1,'2023-11-25',''),(27,1,'2023-11-26',''),(28,1,'2023-11-27',''),(29,1,'2023-11-28',''),(30,1,'2023-11-29',''),(31,1,'2023-11-30','');
 /*!40000 ALTER TABLE `community` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,7 +89,7 @@ CREATE TABLE `community_admin` (
 
 LOCK TABLES `community_admin` WRITE;
 /*!40000 ALTER TABLE `community_admin` DISABLE KEYS */;
-INSERT INTO `community_admin` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10);
+INSERT INTO `community_admin` VALUES (1,1),(2,2),(3,2),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10);
 /*!40000 ALTER TABLE `community_admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,4 +149,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-28 16:36:34
+-- Dump completed on 2023-12-09 21:42:20
