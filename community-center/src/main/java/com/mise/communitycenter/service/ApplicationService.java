@@ -1,6 +1,9 @@
 package com.mise.communitycenter.service;
 
 
+import java.util.List;
+import java.util.Map;
+
 public interface ApplicationService {
 
     /**
@@ -37,4 +40,11 @@ public interface ApplicationService {
      * @return 处理结果
      */
     boolean refuse(long userID, long communityID, long handlerID);
+
+    /**
+     * 根据管理员id查找其所管理的社区的申请信息
+     * @param adminId 管理员id
+     * @return key-管理的社区id， value-申请加入社区的用户idList
+     */
+    Map<Long, List<Long>> getApplicationByAdminId(long adminId);
 }

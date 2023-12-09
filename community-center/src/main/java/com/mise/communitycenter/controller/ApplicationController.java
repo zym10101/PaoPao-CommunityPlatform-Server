@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/application")
 public class ApplicationController {
@@ -51,5 +54,14 @@ public class ApplicationController {
             return Response.failed("处理申请失败");
         }
         return Response.success();
+    }
+
+    @GetMapping("/getApplicationByAdminId")
+    public Response getApplicationByAdminId(@RequestParam long adminID) {
+        Map<Long, List<Long>> applicationMap = applicationService.getApplicationByAdminId(adminID);
+        if(applicationMap == null) {
+            return Response.failed("查询申请列表失败");
+        }
+        return Response.success(applicationMap);
     }
 }

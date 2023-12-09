@@ -55,4 +55,13 @@ public interface CommunityMapper extends BaseMapper<Community> {
     @Insert("insert into community_member (community_id, member_id) " +
             "values (#{communityID}, #{memberID})")
     boolean addMember(long communityID, long memberID);
+
+    /**
+     * 根据管理员id查询其管理的所有社区id
+     * @param adminId 管理员id
+     * @return 社区idList
+     */
+    @Select("select community_id from community_admin " +
+            "where admin_id = #{adminId}")
+    List<Long> getCommunitiesByAdminId(long adminId);
 }

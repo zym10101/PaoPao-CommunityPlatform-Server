@@ -1,19 +1,31 @@
 package com.mise.communitycenter.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.mise.communitycenter.domain.entity.Application;
 import com.mise.communitycenter.enums.ApplicationStatus;
 import com.mise.communitycenter.mapper.ApplicationMapper;
+import com.mise.communitycenter.mapper.CommunityMapper;
 import com.mise.communitycenter.service.ApplicationService;
 import com.mise.communitycenter.util.TimeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Slf4j
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
     @Autowired
     private ApplicationMapper applicationMapper;
+
+    @Autowired
+    private CommunityMapper communityMapper;
 
     @Override
     public boolean applyForCommunity(long userID, long communityID) {
@@ -57,5 +69,22 @@ public class ApplicationServiceImpl implements ApplicationService {
         wrapper.set("handle_time", TimeUtil.getCurrentTime());
         int result = applicationMapper.update(null, wrapper);
         return result == 1;
+    }
+
+    @Override
+    public Map<Long, List<Long>> getApplicationByAdminId(long adminId) {
+        Map<Long, List<Long>> map = new HashMap<>();
+        // 先查管理员管理的所有社区的id
+        try {
+            List<Long> communityIds = communityMapper.getCommunitiesByAdminId(adminId);
+            for (Long communityId : communityIds) {
+                List<Long> applyUserIds = applicationMapper.getApplyUserIdsByCommunityId(communityId); //申请加入社区的用户id，且状态为未处理
+                map.put(communityId, applyUserIds);
+            }
+        } catch (Exception e) {
+            log.error("Get application map failed, related admin id is {}", adminId);
+            return null;
+        }
+        return map;
     }
 }
