@@ -31,8 +31,8 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private HistoryRepository historyRepository;
 
-    static final Long defaultFirstPostId = 200000L;
-    static final Long defaultFirstLikeId = 500000L;
+    static final Long defaultFirstPostId = 0L;
+    static final Long defaultFirstLikeId = 0L;
 
     public List<Post> getAllPosts() {
         return postRepository.findAll();
@@ -60,6 +60,8 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postVO.getTitle());
         post.setUserId(Long.valueOf(postVO.getUserId()));
         post.setCommentNum(0);
+        post.setLikeNum(0);
+        post.setDislikeNum(0);
         post.setPostId(getLastPostId() + 1);
         post.setCreateTime(new Date());
         post.setLastUpdateTime(new Date());

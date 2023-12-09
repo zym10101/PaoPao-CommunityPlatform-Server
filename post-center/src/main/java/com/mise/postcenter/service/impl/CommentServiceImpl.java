@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private PostRepository postRepository;
 
-    static final Long defaultFirstCommentId = 300000L;
+    static final Long defaultFirstCommentId = 0L;
 
     @Override
     public Comment createComment(CommentVO commentVO) {
