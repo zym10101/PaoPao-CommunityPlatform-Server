@@ -34,6 +34,7 @@ public class CommunityServiceImpl implements CommunityService {
         community.setCommunityId(communityVO.getCommunityID());
         community.setPublic(communityVO.isPublic());
         community.setCreateTime(communityVO.getCreateTime());
+        community.setName(communityVO.getName());
         int result = communityMapper.insert(community);
         return result == 1;
     }
