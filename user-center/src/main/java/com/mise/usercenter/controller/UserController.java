@@ -57,6 +57,7 @@ public class UserController {
 
     /**
      * 修改密码
+     *
      * @param userVO
      * @return
      */
@@ -177,5 +178,16 @@ public class UserController {
             return Response.success(200, "获取用户浏览记录成功", history);
         }
         return Response.failed(999, "用户未登录");
+    }
+
+    /**
+     * 根据用户id获取用户名
+     *
+     * @param userId 用户id
+     * @return 用户名
+     */
+    @GetMapping("/getNameById")
+    public String getUserNameById(@RequestParam("userId") String userId) {
+        return userService.getUserNameById(userId);
     }
 }

@@ -35,4 +35,6 @@ public interface UserService {
     List<Post> posts(String userId);
 
     List<Post> history(String userId);
+
+    String getUserNameById(String userId);
 }

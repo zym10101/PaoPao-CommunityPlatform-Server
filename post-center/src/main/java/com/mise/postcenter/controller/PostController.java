@@ -4,11 +4,12 @@ import com.mise.postcenter.common.R;
 import com.mise.postcenter.domain.entity.Comment;
 import com.mise.postcenter.domain.entity.Post;
 import com.mise.postcenter.domain.vo.CommentVO;
+import com.mise.postcenter.domain.vo.PostResponseVO;
+import com.mise.postcenter.domain.vo.PostVO;
 import com.mise.postcenter.repository.HistoryRepository;
 import com.mise.postcenter.service.CommentService;
 import com.mise.postcenter.service.CommonService;
 import com.mise.postcenter.service.PostService;
-import com.mise.postcenter.domain.vo.PostVO;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,20 @@ public class PostController {
 
     @Value("${obs.prefix}")
     private String prefix;
+
+    /**
+     * 获取最新帖子
+     *
+     * @return 最新帖子列表
+     */
+    @GetMapping("/getRecentPosts")
+    public R<List<PostResponseVO>> getRecentPosts() {
+        List<PostResponseVO> posts = postService.getRecentPosts();
+        if (posts.isEmpty()) {
+            return R.error("没有最新帖子！");
+        }
+        return R.success(posts);
+    }
 
     /**
      * 发布帖子

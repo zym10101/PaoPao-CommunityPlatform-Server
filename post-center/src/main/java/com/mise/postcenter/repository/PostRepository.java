@@ -24,4 +24,5 @@ public interface PostRepository extends MongoRepository<Post, Long> {
 
     List<Post> findPostByUserId(Long userId);
 
+    List<Post> findTop20ByOrderByCreateTimeDesc();
 }

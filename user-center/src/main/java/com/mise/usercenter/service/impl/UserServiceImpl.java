@@ -166,5 +166,12 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-
+    @Override
+    public String getUserNameById(String userId) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUserId, userId);
+        User user = userMapper.selectOne(queryWrapper);
+        if (user == null) return null;
+        return user.getUserName();
+    }
 }

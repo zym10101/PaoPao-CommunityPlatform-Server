@@ -2,6 +2,7 @@ package com.mise.postcenter.service;
 
 import com.mise.postcenter.domain.entity.History;
 import com.mise.postcenter.domain.entity.Post;
+import com.mise.postcenter.domain.vo.PostResponseVO;
 import com.mise.postcenter.domain.vo.PostVO;
 
 import java.util.List;
@@ -39,4 +40,6 @@ public interface PostService {
     List<Post> getHistoriesByUserId(Long userId);
 
     History createHistory(Long userId, Long postId);
+
+    List<PostResponseVO> getRecentPosts();
 }
