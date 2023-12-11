@@ -1,4 +1,4 @@
-package com.mise.postcenter.domain.vo;
+package com.mise.usercenter.domain.vo;
 
 import lombok.Data;
 

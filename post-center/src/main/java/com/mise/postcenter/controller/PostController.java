@@ -4,7 +4,6 @@ import com.mise.postcenter.common.R;
 import com.mise.postcenter.domain.entity.Comment;
 import com.mise.postcenter.domain.entity.Post;
 import com.mise.postcenter.domain.vo.CommentVO;
-import com.mise.postcenter.domain.vo.PostResponseVO;
 import com.mise.postcenter.domain.vo.PostVO;
 import com.mise.postcenter.repository.HistoryRepository;
 import com.mise.postcenter.service.CommentService;
@@ -47,8 +46,8 @@ public class PostController {
      * @return 最新帖子列表
      */
     @GetMapping("/getRecentPosts")
-    public R<List<PostResponseVO>> getRecentPosts() {
-        List<PostResponseVO> posts = postService.getRecentPosts();
+    public R<List<Post>> getRecentPosts() {
+        List<Post> posts = postService.getRecentPosts();
         if (posts.isEmpty()) {
             return R.error("没有最新帖子！");
         }

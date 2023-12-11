@@ -1,10 +1,8 @@
 package com.mise.postcenter.service.impl;
 
-import com.mise.postcenter.client.UserClient;
 import com.mise.postcenter.domain.entity.History;
 import com.mise.postcenter.domain.entity.Like;
 import com.mise.postcenter.domain.entity.Post;
-import com.mise.postcenter.domain.vo.PostResponseVO;
 import com.mise.postcenter.domain.vo.PostVO;
 import com.mise.postcenter.repository.CommentRepository;
 import com.mise.postcenter.repository.HistoryRepository;
@@ -34,8 +32,6 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private HistoryRepository historyRepository;
-
-    private final UserClient userClient;
 
 
     static final Long defaultFirstPostId = 0L;
@@ -215,31 +211,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponseVO> getRecentPosts() {
-        List<Post> posts = postRepository.findTop20ByOrderByCreateTimeDesc();
-        List<PostResponseVO> postResponseVOS = new ArrayList<>();
-        getPostResponseVOS(posts, postResponseVOS);
-        return postResponseVOS;
-    }
-
-    private void getPostResponseVOS(List<Post> posts, List<PostResponseVO> postResponseVOS) {
-        for (Post post : posts) {
-            PostResponseVO postResponseVO = new PostResponseVO();
-            postResponseVO.setPostId(post.getPostId().toString());
-            postResponseVO.setCommunityId(post.getCommunityId().toString());
-            postResponseVO.setIsPublic(post.getIsPublic());
-            postResponseVO.setTagList(post.getTagList());
-            postResponseVO.setTitle(post.getTitle());
-            postResponseVO.setContent(post.getContent());
-            postResponseVO.setPhoto(post.getPhoto());
-            postResponseVO.setCommentNum(post.getCommentNum().toString());
-            postResponseVO.setLikeNum(post.getLikeNum().toString());
-            postResponseVO.setDislikeNum(post.getDislikeNum().toString());
-            postResponseVO.setCreateTime(post.getCreateTime());
-            postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
-            postResponseVO.setUserName(userClient.getUserNameById(post.getUserId().toString()));
-            postResponseVOS.add(postResponseVO);
-        }
+    public List<Post> getRecentPosts() {
+        return postRepository.findTop20ByOrderByCreateTimeDesc();
     }
 
     private Long getLastHistoryId() {

@@ -3,10 +3,7 @@ package com.mise.usercenter.controller;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mise.usercenter.domain.entity.Post;
-import com.mise.usercenter.domain.vo.CommentVO;
-import com.mise.usercenter.domain.vo.PostVO;
-import com.mise.usercenter.domain.vo.Response;
-import com.mise.usercenter.domain.vo.UserVO;
+import com.mise.usercenter.domain.vo.*;
 import com.mise.usercenter.service.OssService;
 import com.mise.usercenter.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -181,13 +178,17 @@ public class UserController {
     }
 
     /**
-     * 根据用户id获取用户名
-     *
-     * @param userId 用户id
-     * @return 用户名
+     * 获取最新的帖子
      */
-    @GetMapping("/getNameById")
-    public String getUserNameById(@RequestParam("userId") String userId) {
-        return userService.getUserNameById(userId);
+    @GetMapping("/recent")
+    public Response getRecent() {
+        if (StpUtil.isLogin()) {
+            List<PostResponseVO> recentPosts = userService.getRecentPosts();
+            if (recentPosts == null) {
+                return Response.success(200, "获取最新帖子失败");
+            }
+            return Response.success(200, "获取最新帖子成功", recentPosts);
+        }
+        return Response.failed(999, "用户未登录");
     }
 }

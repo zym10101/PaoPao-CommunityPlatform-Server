@@ -37,4 +37,7 @@ public interface PostClient {
 
     @GetMapping("/post/histories")
     R<List<Post>> histories(@RequestParam String userId);
+
+    @GetMapping("/post/getRecentPosts")
+    R<List<Post>> getRecentPosts();
 }

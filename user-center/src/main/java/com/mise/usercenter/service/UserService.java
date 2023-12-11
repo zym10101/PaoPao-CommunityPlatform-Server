@@ -2,6 +2,7 @@ package com.mise.usercenter.service;
 
 import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.vo.CommentVO;
+import com.mise.usercenter.domain.vo.PostResponseVO;
 import com.mise.usercenter.domain.vo.PostVO;
 import com.mise.usercenter.domain.vo.UserVO;
 
@@ -36,5 +37,5 @@ public interface UserService {
 
     List<Post> history(String userId);
 
-    String getUserNameById(String userId);
+    List<PostResponseVO> getRecentPosts();
 }
