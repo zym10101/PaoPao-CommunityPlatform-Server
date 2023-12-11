@@ -6,16 +6,14 @@ import com.mise.usercenter.client.PostClient;
 import com.mise.usercenter.domain.entity.Comment;
 import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.entity.User;
-import com.mise.usercenter.domain.vo.CommentVO;
-import com.mise.usercenter.domain.vo.PostVO;
-import com.mise.usercenter.domain.vo.R;
-import com.mise.usercenter.domain.vo.UserVO;
+import com.mise.usercenter.domain.vo.*;
 import com.mise.usercenter.mapper.UserMapper;
 import com.mise.usercenter.service.UserService;
 import com.mise.usercenter.utils.RedisCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -173,11 +171,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getUserNameById(String userId) {
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUserId, userId);
-        User user = userMapper.selectOne(queryWrapper);
-        if (user == null) return null;
-        return user.getUserName();
+    public List<PostResponseVO> getRecentPosts() {
+        R<List<Post>> r = postClient.getRecentPosts();
+        if (r.getCode() == 1) {
+            List<Post> posts = r.getData();
+            List<PostResponseVO> postResponseVOS = new ArrayList<>();
+            for (Post post : posts) {
+                PostResponseVO postResponseVO = new PostResponseVO();
+                postResponseVO.setPostId(post.getPostId().toString());
+                postResponseVO.setCommunityId(post.getCommunityId().toString());
+                postResponseVO.setIsPublic(post.getIsPublic());
+                postResponseVO.setTagList(post.getTagList());
+                postResponseVO.setTitle(post.getTitle());
+                postResponseVO.setContent(post.getContent());
+                postResponseVO.setCommentNum(post.getCommentNum().toString());
+                postResponseVO.setLikeNum(post.getLikeNum().toString());
+                postResponseVO.setDislikeNum(post.getDislikeNum().toString());
+                postResponseVO.setCreateTime(post.getCreateTime());
+                postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
+                User user = userMapper.selectById(post.getUserId());
+                postResponseVO.setUserName(user.getUserName());
+                postResponseVO.setPhoto(user.getPhoto());
+                postResponseVOS.add(postResponseVO);
+            }
+            return postResponseVOS;
+        }
+        return null;
     }
 }

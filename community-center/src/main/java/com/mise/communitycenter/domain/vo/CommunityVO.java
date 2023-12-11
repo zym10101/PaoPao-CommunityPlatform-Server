@@ -19,7 +19,7 @@ public class CommunityVO {
     /**
      * 是否公开
      */
-    private boolean isPublic;
+    public boolean isPublic;
 
     /**
      * 创建时间
