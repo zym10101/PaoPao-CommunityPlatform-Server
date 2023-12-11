@@ -20,6 +20,8 @@ public interface UserService {
 
     Long getUserId(String userName);
 
+    String getAvatar(Long userId);
+
     String editUserPhoto(String userName, String url);
 
     String publish(PostVO postVO);

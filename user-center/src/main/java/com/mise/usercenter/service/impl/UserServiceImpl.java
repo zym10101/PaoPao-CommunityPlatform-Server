@@ -102,6 +102,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String getAvatar(Long userId) {
+        User user = userMapper.selectById(userId);
+        return user.getPhoto();
+    }
+
+    @Override
     public String editUserPhoto(String userName, String url) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUserName, userName);

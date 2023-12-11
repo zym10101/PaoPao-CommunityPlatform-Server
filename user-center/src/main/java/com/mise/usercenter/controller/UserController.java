@@ -72,6 +72,20 @@ public class UserController {
     }
 
     /**
+     * 获取用户头像
+     */
+    @GetMapping("/getAvatar")
+    public Response getAvatar() {
+        if (StpUtil.isLogin()) {
+            Long userId = StpUtil.getLoginIdAsLong();
+            String url = userService.getAvatar(userId);
+            return Response.success(200, "获取用户头像成功！", url);
+        } else {
+            return Response.failed(999, "用户未登录！");
+        }
+    }
+
+    /**
      * 更新用户头像
      */
     @PostMapping("/edit")
