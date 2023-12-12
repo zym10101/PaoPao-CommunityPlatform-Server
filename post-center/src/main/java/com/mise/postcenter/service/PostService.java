@@ -33,7 +33,11 @@ public interface PostService {
 
     boolean up(Long userId, Long postId);
 
+    boolean up_back(Long userId, Long postId);
+
     boolean down(Long postId);
+
+    boolean down_back(Long postId);
 
     List<Post> getLikesByUserId(Long userId);
     List<Post> getHistoriesByUserId(Long userId);

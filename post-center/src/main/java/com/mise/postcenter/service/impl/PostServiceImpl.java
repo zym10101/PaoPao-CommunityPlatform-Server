@@ -164,6 +164,24 @@ public class PostServiceImpl implements PostService {
         return true;
     }
 
+    @Override
+    public boolean up_back(Long userId, Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null) {
+            return false;
+        }
+        post.setLikeNum(post.getLikeNum() - 1);
+        postRepository.save(post);
+
+//        Like like = new Like();
+//        like.setLikeId(getLastLikeId() + 1);
+//        like.setUserId(userId);
+//        like.setPostId(postId);
+//        like.setLikeTime(new Date());
+//        likeRepository.save(like);
+        return true;
+    }
+
 
     @Override
     public boolean down(Long postId) {
@@ -172,6 +190,17 @@ public class PostServiceImpl implements PostService {
             return false;
         }
         post.setDislikeNum(post.getDislikeNum() + 1);
+        postRepository.save(post);
+        return true;
+    }
+
+    @Override
+    public boolean down_back(Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null) {
+            return false;
+        }
+        post.setDislikeNum(post.getDislikeNum() - 1);
         postRepository.save(post);
         return true;
     }

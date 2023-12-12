@@ -196,6 +196,22 @@ public class PostController {
     }
 
     /**
+     * 取消点赞帖子
+     *
+     * @param userId 用户id
+     * @param postId 帖子id
+     * @return 取消点赞结果
+     */
+    @PostMapping("/up_back")
+    public R<String> up_back(@RequestParam String userId, @RequestParam String postId) {
+        boolean up = postService.up_back(Long.valueOf(userId), Long.valueOf(postId));
+        if (up) {
+            return R.success("点赞成功");
+        }
+        return R.error("点赞失败");
+    }
+
+    /**
      * 点踩帖子
      *
      * @param postId 帖子id
@@ -209,6 +225,22 @@ public class PostController {
         }
         return R.error("点踩失败");
     }
+
+    /**
+     * 取消点踩帖子
+     *
+     * @param postId 帖子id
+     * @return 取消点踩结果
+     */
+    @PostMapping("/down_back")
+    public R<String> down_back(@RequestParam String postId) {
+        boolean down = postService.down_back(Long.valueOf(postId));
+        if (down) {
+            return R.success("点踩成功");
+        }
+        return R.error("点踩失败");
+    }
+
 
     /**
      * 查看该用户的所有点赞的帖子

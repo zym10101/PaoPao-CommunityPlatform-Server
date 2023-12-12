@@ -138,6 +138,19 @@ public class UserController {
     }
 
     /**
+     * 用户取消点赞帖子
+     */
+    @PostMapping("/like_back")
+    public Response like_back(@RequestParam("postId") String postId) {
+        if (StpUtil.isLogin()) {
+            String userId = StpUtil.getLoginIdAsString();
+            boolean res = userService.up_back(userId, postId);
+            return res ? Response.success(200, "取消点赞成功！") : Response.failed(999, "取消点赞失败！");
+        }
+        return Response.failed(999, "用户未登录，无法取消点赞！");
+    }
+
+    /**
      * 用户点踩帖子
      */
     @PostMapping("/dislike")
@@ -147,6 +160,18 @@ public class UserController {
             return res ? Response.success(200, "点踩成功！") : Response.failed(999, "点踩失败！");
         }
         return Response.failed(999, "用户未登录，无法点踩！");
+    }
+
+    /**
+     * 用户取消点踩帖子
+     */
+    @PostMapping("/dislike_back")
+    public Response dislike_back(@RequestParam("postId") String postId) {
+        if (StpUtil.isLogin()) {
+            boolean res = userService.down_back(postId);
+            return res ? Response.success(200, "取消点踩成功！") : Response.failed(999, "取消点踩失败！");
+        }
+        return Response.failed(999, "用户未登录，无法取消点踩！");
     }
 
     /**

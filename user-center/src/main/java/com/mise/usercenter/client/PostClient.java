@@ -26,8 +26,14 @@ public interface PostClient {
     @PostMapping("/post/up")
     R<String> up(@RequestParam String userId, @RequestParam String postId);
 
+    @PostMapping("/post/up_back")
+    R<String> up_back(@RequestParam String userId, @RequestParam String postId);
+
     @PostMapping("/post/down")
     R<String> down(@RequestParam String postId);
+
+    @PostMapping("/post/down_back")
+    R<String> down_back(@RequestParam String postId);
 
     @GetMapping("/post/likes")
     R<List<Post>> likes(@RequestParam String userId);

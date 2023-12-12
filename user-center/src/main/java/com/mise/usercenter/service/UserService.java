@@ -31,7 +31,11 @@ public interface UserService {
 
     boolean up(String userId, String postId);
 
+    boolean up_back(String userId, String postId);
+
     boolean down(String postId);
+
+    boolean down_back(String postId);
 
     List<Post> likes(String userId);
 

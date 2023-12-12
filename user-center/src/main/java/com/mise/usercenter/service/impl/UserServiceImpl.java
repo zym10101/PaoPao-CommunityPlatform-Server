@@ -138,8 +138,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean up_back(String userId, String postId) {
+        R<String> r = postClient.up_back(userId, postId);
+        return r.getCode() == 1;
+    }
+
+    @Override
     public boolean down(String postId) {
         R<String> r = postClient.down(postId);
+        return r.getCode() == 1;
+    }
+
+    @Override
+    public boolean down_back(String postId) {
+        R<String> r = postClient.down_back(postId);
         return r.getCode() == 1;
     }
 
