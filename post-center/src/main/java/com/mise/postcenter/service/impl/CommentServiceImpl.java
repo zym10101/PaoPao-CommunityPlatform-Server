@@ -26,6 +26,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment createComment(CommentVO commentVO) {
+        System.out.println(commentVO.getContent());
         Comment comment = new Comment();
         comment.setCommentId(getLastCommentId() + 1);
         comment.setUserId(Long.valueOf(commentVO.getUserId()));

@@ -118,6 +118,8 @@ public class UserController {
     @PostMapping("/comment")
     public Response comment(@RequestBody CommentVO commentVO) {
         if (StpUtil.isLogin()) {
+            String userId = StpUtil.getLoginIdAsString();
+            commentVO.setUserId(userId);
             boolean res = userService.comment(commentVO);
             return res ? Response.success(200, "评论成功！") : Response.failed(999, "评论失败！");
         }
