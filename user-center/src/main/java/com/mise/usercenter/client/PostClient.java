@@ -46,4 +46,7 @@ public interface PostClient {
 
     @GetMapping("/post/getRecentPosts")
     R<List<Post>> getRecentPosts();
+
+    @PostMapping("/post/getComments")
+    R<List<Comment>> getComment(@RequestParam String postId);
 }

@@ -210,4 +210,26 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public List<CommentResponseVO> getComment(String postId) {
+        R<List<Comment>> r = postClient.getComment(postId);
+        if (r.getCode() == 1) {
+            List<Comment> comments = r.getData();
+            List<CommentResponseVO> commentResponseVOS = new ArrayList<>();
+            for (Comment comment : comments) {
+                CommentResponseVO commentResponseVO = new CommentResponseVO();
+                commentResponseVO.setCommentId(comment.getCommentId().toString());
+                commentResponseVO.setPostId(comment.getPostId().toString());
+                commentResponseVO.setContent(comment.getContent());
+                User user = userMapper.selectById(comment.getUserId());
+                commentResponseVO.setUserName(user.getUserName());
+                commentResponseVO.setPhoto(user.getPhoto());
+                commentResponseVO.setCreateTime(comment.getCreateTime());
+                commentResponseVOS.add(commentResponseVO);
+            }
+            return commentResponseVOS;
+        }
+        return null;
+    }
 }

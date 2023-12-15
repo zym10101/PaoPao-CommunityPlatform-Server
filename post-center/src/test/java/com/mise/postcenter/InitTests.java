@@ -55,13 +55,15 @@ public class InitTests {
             postService.createPost(postVO);
         }
 
-        // 插入评论数据
-        for (int i = 0; i < 100; i++) {
-            CommentVO commentVO = new CommentVO();
-            commentVO.setContent("很棒的文章！");
-            commentVO.setPostId(String.valueOf(i + 1));
-            commentVO.setUserId("1");
-            commentService.createComment(commentVO);
+        for (int j = 0; j < 4; j++) {
+            // 插入评论数据
+            for (int i = 0; i < 100; i++) {
+                CommentVO commentVO = new CommentVO();
+                commentVO.setContent("很棒的文章！");
+                commentVO.setPostId(String.valueOf(i + 1));
+                commentVO.setUserId("1");
+                commentService.createComment(commentVO);
+            }
         }
     }
 }

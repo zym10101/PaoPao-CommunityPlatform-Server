@@ -40,6 +40,7 @@ public class PostController {
     @Value("${obs.prefix}")
     private String prefix;
 
+
     /**
      * 获取最新帖子
      *
@@ -170,7 +171,7 @@ public class PostController {
      * @param postId 帖子id
      * @return 评论列表
      */
-    @GetMapping("/getComments")
+    @PostMapping("/getComments")
     public R<List<Comment>> getComments(@RequestParam String postId) {
         List<Comment> comments = commentService.getCommentsByPostId(Long.valueOf(postId));
         if (comments.isEmpty()) {

@@ -230,4 +230,22 @@ public class UserController {
         }
         return Response.failed(999, "用户未登录");
     }
+
+    /**
+     * 获取评论列表
+     *
+     * @param postId 帖子id
+     * @return 评论列表
+     */
+    @PostMapping("/getComments")
+    public Response getComment(@RequestParam("postId") String postId) {
+        if (StpUtil.isLogin()) {
+            List<CommentResponseVO> commentResponseVOS = userService.getComment(postId);
+            if (commentResponseVOS == null) {
+                return Response.success(200, "获取评论失败");
+            }
+            return Response.success(200, "获取评论成功", commentResponseVOS);
+        }
+        return Response.failed(999, "用户未登录");
+    }
 }
