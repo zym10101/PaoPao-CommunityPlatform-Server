@@ -162,6 +162,9 @@ public class UserServiceImpl implements UserService {
             List<Post> posts = r.getData();
             List<PostResponseVO> postResponseVOS = new ArrayList<>();
             for (Post post : posts) {
+                if(post == null){
+                    continue;
+                }
                 PostResponseVO postResponseVO = new PostResponseVO();
                 postResponseVO.setPostId(post.getPostId().toString());
                 postResponseVO.setCommunityId(post.getCommunityId().toString());
