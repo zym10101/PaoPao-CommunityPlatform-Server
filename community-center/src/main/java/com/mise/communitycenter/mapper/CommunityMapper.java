@@ -64,4 +64,12 @@ public interface CommunityMapper extends BaseMapper<Community> {
     @Select("select community_id from community_admin " +
             "where admin_id = #{adminId}")
     List<Long> getCommunitiesByAdminId(long adminId);
+
+    @Insert("insert into community_admin (community_id, admin_id) " +
+            "values (#{communityId}, #{userId})")
+    boolean addAdmin(long communityId, long userId);
+
+    @Delete("delete from community_admin " +
+            "where community_id = #{communityId} and admin_id = #{userId}")
+    boolean removeAdmin(long communityId, long userId);
 }

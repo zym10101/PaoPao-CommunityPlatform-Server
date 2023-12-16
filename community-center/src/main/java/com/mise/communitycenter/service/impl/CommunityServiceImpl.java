@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author whm,wlf
+ * @author whm, wlf
  * @date 2023/10/27 17:05
  */
 @Slf4j
@@ -36,7 +36,11 @@ public class CommunityServiceImpl implements CommunityService {
         community.setCreateTime(communityVO.getCreateTime());
         community.setName(communityVO.getName());
         int result = communityMapper.insert(community);
-        return result == 1;
+        if (result != 1) {
+            return false;
+        }
+        // 创建者设为社区管理员
+        return addAdmin(communityVO.getCommunityID(), userID);
     }
 
     @Override
@@ -75,6 +79,16 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    public boolean addAdmin(long communityId, long userId) {
+        return communityMapper.addAdmin(communityId, userId);
+    }
+
+    @Override
+    public boolean removeAdmin(long communityId, long userId) {
+        return communityMapper.deleteMember(communityId, userId);
+    }
+
+    @Override
     public boolean deleteMember(long communityID, long memberID) {
         return communityMapper.deleteMember(communityID, memberID);
     }
@@ -101,7 +115,7 @@ public class CommunityServiceImpl implements CommunityService {
         wrapper.lambda().eq(Community::getCommunityId, communityId);
         try {
             Community community = communityMapper.selectOne(wrapper);
-            if(community == null) {
+            if (community == null) {
                 log.error("No such communityId: {}", communityId);
                 return null;
             }

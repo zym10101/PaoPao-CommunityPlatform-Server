@@ -72,5 +72,23 @@ public class CommunityController {
         return Response.success(community);
     }
 
+    @GetMapping("/add-admin")
+    public Response addAdmin(@RequestParam long communityId, @RequestParam long userId) {
+        boolean res = communityService.addAdmin(communityId, userId);
+        if(!res) {
+            return Response.failed("添加管理员失败");
+        }
+        return Response.success();
+    }
+
+    @GetMapping("/remove-admin")
+    public Response removeAdmin(@RequestParam long communityId, @RequestParam long userId) {
+        boolean res = communityService.removeAdmin(communityId, userId);
+        if(!res) {
+            return Response.failed("删除管理员失败");
+        }
+        return Response.success();
+    }
+
 
 }
