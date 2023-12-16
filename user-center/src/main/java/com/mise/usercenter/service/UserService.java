@@ -36,7 +36,7 @@ public interface UserService {
 
     List<PostResponseVO> likes(String userId);
 
-    List<Post> posts(String userId);
+    List<PostResponseVO> posts(String userId);
 
     List<Post> history(String userId);
 

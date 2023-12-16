@@ -197,7 +197,7 @@ public class UserController {
     public Response getPosts() {
         if (StpUtil.isLogin()) {
             String userId = StpUtil.getLoginIdAsString();
-            List<Post> posts = userService.posts(userId);
+            List<PostResponseVO> posts = userService.posts(userId);
             if (posts == null) return Response.success(200, "用户未发布过帖子");
             return Response.success(200, "获取用户发布的帖子成功", posts);
         }

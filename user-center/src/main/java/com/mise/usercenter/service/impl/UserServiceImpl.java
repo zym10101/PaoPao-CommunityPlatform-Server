@@ -185,10 +185,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Post> posts(String userId) {
+    public List<PostResponseVO> posts(String userId) {
         R<List<Post>> r = postClient.getUserPosts(userId);
         if (r.getCode() == 1) {
-            return r.getData();
+            List<Post> posts = r.getData();
+            List<PostResponseVO> postResponseVOS = new ArrayList<>();
+            for (Post post : posts) {
+                PostResponseVO postResponseVO = new PostResponseVO();
+                postResponseVO.setPostId(post.getPostId().toString());
+                postResponseVO.setCommunityId(post.getCommunityId().toString());
+                postResponseVO.setIsPublic(post.getIsPublic());
+                postResponseVO.setTagList(post.getTagList());
+                postResponseVO.setTitle(post.getTitle());
+                postResponseVO.setContent(post.getContent());
+                postResponseVO.setCommentNum(post.getCommentNum().toString());
+                postResponseVO.setLikeNum(post.getLikeNum().toString());
+                postResponseVO.setDislikeNum(post.getDislikeNum().toString());
+                postResponseVO.setCreateTime(post.getCreateTime());
+                postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
+                User user = userMapper.selectById(post.getUserId());
+                postResponseVO.setUserName(user.getUserName());
+                postResponseVO.setPhoto(user.getPhoto());
+                postResponseVOS.add(postResponseVO);
+            }
+            return postResponseVOS;
         }
         return null;
     }
