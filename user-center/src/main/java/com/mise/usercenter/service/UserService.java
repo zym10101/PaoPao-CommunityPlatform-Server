@@ -34,7 +34,7 @@ public interface UserService {
 
     boolean down_back(String postId);
 
-    List<Post> likes(String userId);
+    List<PostResponseVO> likes(String userId);
 
     List<Post> posts(String userId);
 

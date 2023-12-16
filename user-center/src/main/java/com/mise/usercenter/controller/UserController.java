@@ -183,7 +183,7 @@ public class UserController {
     public Response getLikes() {
         if (StpUtil.isLogin()) {
             String userId = StpUtil.getLoginIdAsString();
-            List<Post> posts = userService.likes(userId);
+            List<PostResponseVO> posts = userService.likes(userId);
             if (posts == null) return Response.success(200, "该用户没有喜欢的帖子！");
             return Response.success(200, "获取用户点赞过的帖子成功！", posts);
         }
