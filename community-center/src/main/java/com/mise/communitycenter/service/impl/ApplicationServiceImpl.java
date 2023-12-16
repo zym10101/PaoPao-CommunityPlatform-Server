@@ -3,10 +3,12 @@ package com.mise.communitycenter.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.mise.communitycenter.domain.entity.Application;
+import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.enums.ApplicationStatus;
 import com.mise.communitycenter.mapper.ApplicationMapper;
 import com.mise.communitycenter.mapper.CommunityMapper;
 import com.mise.communitycenter.service.ApplicationService;
+import com.mise.communitycenter.service.CommunityService;
 import com.mise.communitycenter.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Autowired
     private CommunityMapper communityMapper;
+
+    @Autowired
+    private CommunityService communityService;
 
     @Override
     public boolean applyForCommunity(long userID, long communityID) {
@@ -72,14 +77,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Map<Long, List<Long>> getApplicationByAdminId(long adminId) {
-        Map<Long, List<Long>> map = new HashMap<>();
+    public Map<CommunityVO, List<Long>> getApplicationByAdminId(long adminId) {
+        Map<CommunityVO, List<Long>> map = new HashMap<>();
         // 先查管理员管理的所有社区的id
         try {
             List<Long> communityIds = communityMapper.getCommunitiesByAdminId(adminId);
             for (Long communityId : communityIds) {
                 List<Long> applyUserIds = applicationMapper.getApplyUserIdsByCommunityId(communityId); //申请加入社区的用户id，且状态为未处理
-                map.put(communityId, applyUserIds);
+                CommunityVO community = communityService.getCommunityById(communityId);
+                map.put(community, applyUserIds);
             }
         } catch (Exception e) {
             log.error("Get application map failed, related admin id is {}", adminId);

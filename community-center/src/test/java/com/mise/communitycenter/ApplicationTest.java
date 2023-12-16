@@ -1,5 +1,6 @@
 package com.mise.communitycenter;
 
+import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.service.ApplicationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class ApplicationTest {
     @Test
     public void getApplicationList_test() {
         long adminId = 2;
-        Map<Long, List<Long>> applicationList = applicationService.getApplicationByAdminId(adminId);
+        Map<CommunityVO, List<Long>> applicationList = applicationService.getApplicationByAdminId(adminId);
         applicationList.forEach((communityId, userIdList) -> {
             System.out.print(communityId + ": ");
             userIdList.forEach(id -> System.out.print(id + " "));

@@ -1,5 +1,6 @@
 package com.mise.communitycenter.controller;
 
+import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.domain.vo.Response;
 import com.mise.communitycenter.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class ApplicationController {
 
     @GetMapping("/getApplicationByAdminId")
     public Response getApplicationByAdminId(@RequestParam long adminID) {
-        Map<Long, List<Long>> applicationMap = applicationService.getApplicationByAdminId(adminID);
+        Map<CommunityVO, List<Long>> applicationMap = applicationService.getApplicationByAdminId(adminID);
         if(applicationMap == null) {
             return Response.failed("查询申请列表失败");
         }
