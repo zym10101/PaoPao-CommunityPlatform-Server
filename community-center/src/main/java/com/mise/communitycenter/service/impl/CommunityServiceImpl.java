@@ -3,6 +3,7 @@ package com.mise.communitycenter.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.mise.communitycenter.domain.entity.Community;
+import com.mise.communitycenter.domain.vo.ApplicationCheckVO;
 import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.domain.vo.MemberVO;
 import com.mise.communitycenter.domain.vo.PostVO;
@@ -127,6 +128,17 @@ public class CommunityServiceImpl implements CommunityService {
             log.error("Duplicated communityId: {}", communityId);
             return null;
         }
+    }
+
+    @Override
+    public List<CommunityVO> getAdminCommunitiesByAdminId(long adminId) {
+        List<CommunityVO> res = new ArrayList<>();
+        List<Long> communityIds = communityMapper.getCommunitiesByAdminId(adminId);
+        for (Long communityId : communityIds) {
+            CommunityVO community = getCommunityById(communityId); // 查社区详情
+            res.add(community);
+        }
+        return res;
     }
 
     public Long getLastCommunityId() {

@@ -84,6 +84,15 @@ public class CommunityController {
         return Response.success();
     }
 
+    @GetMapping("/getAdminCommunitiesByAdminId")
+    public Response getAdminCommunitiesByAdminId(@RequestParam long adminId) {
+        List<CommunityVO> adminCommunitiesByAdminId = communityService.getAdminCommunitiesByAdminId(adminId);
+        if(adminCommunitiesByAdminId == null) {
+            return Response.failed();
+        }
+        return Response.success(adminCommunitiesByAdminId);
+    }
+
     @GetMapping("/getCreatedCommunityById")
     public Response getCreatedCommunityById(@RequestParam long userId) {
         List<CommunityVO> communityVOs = new ArrayList<CommunityVO>();

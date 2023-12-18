@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,12 +62,12 @@ public class ApplicationController {
         return Response.success();
     }
 
-    @GetMapping("/getApplicationByAdminId")
-    public Response getApplicationByAdminId(@RequestParam long adminID) {
-        List<ApplicationCheckVO> applicationMap = applicationService.getApplicationByAdminId(adminID);
-        if(applicationMap == null) {
+    @GetMapping("/getApplicationOfCommunity")
+    public Response getApplicationOfCommunity(@RequestParam long communityId) {
+        List<Long> applicationOfCommunity = applicationService.getApplicationOfCommunity(communityId);
+        if(applicationOfCommunity == null) {
             return Response.failed("查询申请列表失败");
         }
-        return Response.success(JSON.toJSON(applicationMap));
+        return Response.success(applicationOfCommunity);
     }
 }

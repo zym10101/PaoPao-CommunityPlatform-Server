@@ -51,4 +51,6 @@ public interface ApplicationService {
      * @return key-管理的社区id， value-申请加入社区的用户idList
      */
     List<ApplicationCheckVO> getApplicationByAdminId(long adminId);
+
+    List<Long> getApplicationOfCommunity(long communityId);
 }

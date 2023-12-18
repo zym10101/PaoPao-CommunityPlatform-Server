@@ -72,4 +72,6 @@ public interface CommunityService {
      * @return 社区信息
      */
     CommunityVO getCommunityById(long communityId);
+
+    List<CommunityVO> getAdminCommunitiesByAdminId(long adminId);
 }

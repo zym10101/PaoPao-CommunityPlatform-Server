@@ -102,4 +102,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         return res;
     }
+
+    @Override
+    public List<Long> getApplicationOfCommunity(long communityId) {
+        return applicationMapper.getApplyUserIdsByCommunityId(communityId);
+    }
 }

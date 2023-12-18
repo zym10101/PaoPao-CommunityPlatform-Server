@@ -4,6 +4,7 @@ import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.entity.User;
 import com.mise.usercenter.domain.vo.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -49,4 +50,7 @@ public interface UserService {
 
     Map<CommunityVO, List<User>> getApplicationByAdminId(long adminID);
 
+//    List<Long> getApplicationOfCommunity(@RequestParam long communityId);
+//
+//    List<CommunityVO> getAdminCommunitiesByAdminId(@RequestParam long adminID);
 }

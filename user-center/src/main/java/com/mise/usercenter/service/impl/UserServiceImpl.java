@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
             List<Post> posts = r.getData();
             List<PostResponseVO> postResponseVOS = new ArrayList<>();
             for (Post post : posts) {
-                if(post == null){
+                if (post == null) {
                     continue;
                 }
                 PostResponseVO postResponseVO = new PostResponseVO();
@@ -291,55 +291,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<CommunityVO, List<User>> getApplicationByAdminId(@RequestParam long adminID) {
-        Response<Object> r = communityClient.getApplicationByAdminId(adminID);
-        if(r.getCode() == 200) {
-            List<LinkedHashMap<List, LinkedHashMap>> rsp = (List<LinkedHashMap<List, LinkedHashMap>>) r.getData();
-
-            Map<CommunityVO, List<User>> res = new HashMap<>();
-            for (LinkedHashMap<List, LinkedHashMap> data : rsp) {
-                List<Integer> userIdList = (List<Integer>) data.get("userIdList");
-                LinkedHashMap<String, Object> communityMap = (LinkedHashMap<String, Object>) data.get("communityVO");
-                CommunityVO communityVO = initCommunityVO(communityMap);
-                List<User> userList = new ArrayList<>();
-                for (Integer id : userIdList) { //根据userid查完整的user信息
-                    QueryWrapper<User> wrapper = new QueryWrapper<>();
-                    wrapper.lambda()
-                            .eq(User::getUserId, id)
-                            .select(User::getUserId, User::getUserName, User::getPhone);
-                    try {
-                        User user = userMapper.selectOne(wrapper);
-                        if(user == null) {
-                            log.error("No such userId: {}", id);
+        Response<List<CommunityVO>> r = communityClient.getAdminCommunitiesByAdminId(adminID);
+        Map<CommunityVO, List<User>> res = new HashMap<>();
+        if (r.getCode() == 200) {
+            List<CommunityVO> communities = r.getData();
+            for (CommunityVO community : communities) {
+                long communityID = community.getCommunityID();
+                Response<List<Long>> rr = communityClient.getApplicationOfCommunity(communityID);
+                if (rr.getCode() == 200) {
+                    List<Long> userIdList = rr.getData();
+                    List<User> userList = new ArrayList<>();
+                    for (Long id : userIdList) { //根据userid查完整的user信息
+                        QueryWrapper<User> wrapper = new QueryWrapper<>();
+                        wrapper.lambda()
+                                .eq(User::getUserId, id)
+                                .select(User::getUserId, User::getUserName, User::getPhoto);
+                        try {
+                            User user = userMapper.selectOne(wrapper);
+                            if (user == null) {
+                                log.error("No such userId: {}", id);
+                            }
+                            userList.add(user);
+                        } catch (TooManyResultsException e) {
+                            log.error("Duplicated userId: {}", id);
+                            userList.add(null);
                         }
-                        userList.add(user);
-                    } catch (TooManyResultsException e) {
-                        log.error("Duplicated userId: {}",id);
-                        userList.add(null);
                     }
+                    res.put(community, userList);
+                } else {
+                    return null;
                 }
-                res.put(communityVO, userList);
             }
             return res;
         }
         return null;
     }
-
-    private CommunityVO initCommunityVO(LinkedHashMap<String, Object> map) {
-        CommunityVO communityVO = new CommunityVO();
-        communityVO.setCommunityID((Integer) map.get("communityID"));
-        communityVO.setName((String) map.get("name"));
-        communityVO.setCommunityID((Integer) map.get("communityID"));
-        communityVO.setPublic((boolean) map.get("isPublic"));
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-
-        // 将字符串解析为 OffsetDateTime
-        OffsetDateTime offsetDateTime = OffsetDateTime.parse(map.get("createTime").toString(), formatter);
-
-        // 将 OffsetDateTime 转换为 Date
-        Date date = Date.from(offsetDateTime.toInstant());
-        communityVO.setCreateTime(date);
-        return communityVO;
-    }
-
 }
