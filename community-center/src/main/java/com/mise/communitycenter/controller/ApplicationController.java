@@ -1,6 +1,7 @@
 package com.mise.communitycenter.controller;
 
 import com.mise.communitycenter.domain.vo.CommunityVO;
+import com.mise.communitycenter.domain.vo.R;
 import com.mise.communitycenter.domain.vo.Response;
 import com.mise.communitycenter.service.ApplicationService;
 import org.apache.catalina.User;
@@ -60,7 +61,7 @@ public class ApplicationController {
 
     @GetMapping("/getApplicationByAdminId")
     public Response getApplicationByAdminId(@RequestParam long adminID) {
-        Map<CommunityVO, List<Long>> applicationMap = applicationService.getApplicationByAdminId(adminID);
+        Map<CommunityVO, List<String>> applicationMap = applicationService.getApplicationByAdminId(adminID);
         if(applicationMap == null) {
             return Response.failed("查询申请列表失败");
         }

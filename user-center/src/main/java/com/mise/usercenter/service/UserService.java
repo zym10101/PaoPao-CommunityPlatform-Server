@@ -48,6 +48,6 @@ public interface UserService {
 
     List<CommentResponseVO> getComment(String postId);
 
-    Map<CommunityVO, List<User>> getApplicationByAdminId(String userId);
+    Map<CommunityVO, List<User>> getApplicationByAdminId(long adminID);
 
 }

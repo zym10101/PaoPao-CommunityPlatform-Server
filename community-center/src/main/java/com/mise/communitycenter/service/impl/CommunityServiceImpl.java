@@ -5,6 +5,7 @@ import com.mise.communitycenter.domain.entity.Community;
 import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.domain.vo.MemberVO;
 import com.mise.communitycenter.domain.vo.PostVO;
+import com.mise.communitycenter.enums.Role;
 import com.mise.communitycenter.mapper.CommunityMapper;
 import com.mise.communitycenter.service.CommunityService;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +41,8 @@ public class CommunityServiceImpl implements CommunityService {
         }
         // 先插入再查id
         Long communityId = getLastCommunityId();
-        // 创建者设为社区管理员
-        return addAdmin(communityId, userID);
+        // 创建者
+        return addMember(communityId, userID, Role.CREATOR);
     }
 
     @Override
@@ -80,24 +81,14 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public boolean addAdmin(long communityId, long userId) {
-        return communityMapper.addAdmin(communityId, userId);
-    }
-
-    @Override
-    public boolean removeAdmin(long communityId, long userId) {
-        return communityMapper.deleteMember(communityId, userId);
-    }
-
-    @Override
     public boolean deleteMember(long communityID, long memberID) {
         return communityMapper.deleteMember(communityID, memberID);
     }
 
     @Override
-    public boolean addMember(long communityID, long memberID) {
+    public boolean addMember(long communityID, long memberID, int role) {
         try {
-            return communityMapper.addMember(communityID, memberID);
+            return communityMapper.addMember(communityID, memberID, role);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

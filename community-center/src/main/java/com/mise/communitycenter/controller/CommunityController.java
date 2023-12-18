@@ -57,8 +57,9 @@ public class CommunityController {
     }
 
     @GetMapping("/addMember")
-    public Response addMember(@RequestParam long communityID, @RequestParam long memberID) {
-        boolean result = communityService.addMember(communityID, memberID);
+    public Response addMember(@RequestParam long communityID,
+                              @RequestParam long memberID, @RequestParam int role) {
+        boolean result = communityService.addMember(communityID, memberID, role);
         if(!result) {
             return Response.failed("添加成员失败");
         }
@@ -74,24 +75,6 @@ public class CommunityController {
         return Response.success(community);
     }
 
-    @GetMapping("/add-admin")
-    public Response addAdmin(@RequestParam long communityId, @RequestParam long userId) {
-        boolean res = communityService.addAdmin(communityId, userId);
-        if(!res) {
-            return Response.failed("添加管理员失败");
-        }
-        return Response.success();
-    }
-
-    @GetMapping("/remove-admin")
-    public Response removeAdmin(@RequestParam long communityId, @RequestParam long userId) {
-        boolean res = communityService.removeAdmin(communityId, userId);
-        if(!res) {
-            return Response.failed("删除管理员失败");
-        }
-        return Response.success();
-    }
-
     @GetMapping("/getCreatedCommunityById")
     public Response getCreatedCommunityById(@RequestParam long userId) {
         List<CommunityVO> communityVOs = new ArrayList<CommunityVO>();
@@ -105,6 +88,7 @@ public class CommunityController {
         communityVOs.add(communityVO);
         return Response.success(communityVOs);
     }
+
 
     @GetMapping("/getManagedCommunityById")
     public Response getManagedCommunityById(@RequestParam long userId) {

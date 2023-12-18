@@ -17,5 +17,5 @@ public interface ApplicationMapper extends BaseMapper<Application> {
      */
     @Select("select user_id from application " +
             "where community_id = #{communityId} and status = 'Pending'")
-    List<Long> getApplyUserIdsByCommunityId(long communityId);
+    List<String> getApplyUserIdsByCommunityId(long communityId);
 }

@@ -17,11 +17,16 @@ public class ApplicationTest {
 
     @Test
     public void getApplicationList_test() {
-        long adminId = 2;
-        Map<CommunityVO, List<Long>> applicationList = applicationService.getApplicationByAdminId(adminId);
-        applicationList.forEach((communityId, userIdList) -> {
-            System.out.print(communityId + ": ");
-            userIdList.forEach(id -> System.out.print(id + " "));
-        });
+//        long adminId = 2;
+//        Map<CommunityVO, List<Long>> applicationList = applicationService.getApplicationByAdminId(adminId);
+//        applicationList.forEach((communityId, userIdList) -> {
+//            System.out.print(communityId + ": ");
+//            userIdList.forEach(id -> System.out.print(id + " "));
+//        });
+    }
+
+    @Test
+    public void test_apply() {
+        applicationService.applyForCommunity(1, 206);
     }
 }

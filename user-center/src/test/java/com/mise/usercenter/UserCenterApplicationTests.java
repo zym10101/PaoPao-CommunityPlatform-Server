@@ -39,9 +39,7 @@ class UserCenterApplicationTests {
 
     @Test
     void test_user_community() {
-        Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId("1");
+        Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId(18L);
     }
-
-
 
 }

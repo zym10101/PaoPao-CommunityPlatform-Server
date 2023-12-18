@@ -1,6 +1,7 @@
 package com.mise.communitycenter.domain.vo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -9,6 +10,7 @@ import java.util.Date;
  * @date 2023/10/27 16:32
  */
 @Data
+@NoArgsConstructor
 public class CommunityVO {
 
     /**

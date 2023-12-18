@@ -35,22 +35,6 @@ public interface CommunityService {
     List<PostVO> getPosts(long communityID);
 
     /**
-     * 为社区添加管理员
-     * @param communityId 社区id
-     * @param userId 管理员id
-     * @return 操作结果
-     */
-    boolean addAdmin(long communityId, long userId);
-
-    /**
-     * 社区删除管理员
-     * @param communityId 社区id
-     * @param userId 管理员id
-     * @return 操作结果
-     */
-    boolean removeAdmin(long communityId, long userId);
-
-    /**
      * 删除社区中的某位成员
      * @param memberID 要删除的成员的id
      * @return 删除结果
@@ -64,7 +48,7 @@ public interface CommunityService {
      * @param memberID 成员id
      * @return 添加操作结果
      */
-    boolean addMember(long communityID, long memberID);
+    boolean addMember(long communityID, long memberID, int role);
 
     /**
      * 展示当前热门社区, 以及用户可能感兴趣的社区

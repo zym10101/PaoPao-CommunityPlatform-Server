@@ -42,8 +42,8 @@ public interface CommunityMapper extends BaseMapper<Community> {
      * @param memberID 成员id
      * @return 删除结果
      */
-    @Delete("delete from community_member " +
-            "where community_id = #{communityID} and member_id = #{memberID}")
+    @Delete("delete from community_user " +
+            "where community_id = #{communityID} and user_id = #{memberID}")
     boolean deleteMember(long communityID, long memberID);
 
     /**
@@ -52,9 +52,9 @@ public interface CommunityMapper extends BaseMapper<Community> {
      * @param memberID 成员id
      * @return 添加结果
      */
-    @Insert("insert into community_member (community_id, member_id) " +
-            "values (#{communityID}, #{memberID})")
-    boolean addMember(long communityID, long memberID);
+    @Insert("insert into community_user (community_id, user_id, role) " +
+            "values (#{communityID}, #{memberID}, #{role})")
+    boolean addMember(long communityID, long memberID, int role);
 
     /**
      * 根据管理员id查询其管理的所有社区id
@@ -65,12 +65,12 @@ public interface CommunityMapper extends BaseMapper<Community> {
             "where admin_id = #{adminId}")
     List<Long> getCommunitiesByAdminId(long adminId);
 
-    @Insert("insert into community_admin (community_id, admin_id) " +
-            "values (#{communityId}, #{userId})")
+    @Insert("insert into community_user (community_id, user_id, role) " +
+            "values (#{communityId}, #{userId}, 0)")
     boolean addAdmin(long communityId, long userId);
 
-    @Delete("delete from community_admin " +
-            "where community_id = #{communityId} and admin_id = #{userId}")
+    @Delete("delete from community_user " +
+            "where community_id = #{communityId} and user_id = #{userId}")
     boolean removeAdmin(long communityId, long userId);
 
     @Select("select community_id from community order by create_time desc limit 1")

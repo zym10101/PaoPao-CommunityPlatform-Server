@@ -78,13 +78,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Map<CommunityVO, List<Long>> getApplicationByAdminId(long adminId) {
-        Map<CommunityVO, List<Long>> map = new HashMap<>();
+    public Map<CommunityVO, List<String>> getApplicationByAdminId(long adminId) {
+        Map<CommunityVO, List<String>> map = new HashMap<>();
         // 先查管理员管理的所有社区的id
         try {
             List<Long> communityIds = communityMapper.getCommunitiesByAdminId(adminId);
             for (Long communityId : communityIds) {
-                List<Long> applyUserIds = applicationMapper.getApplyUserIdsByCommunityId(communityId); //申请加入社区的用户id，且状态为未处理
+                List<String> applyUserIds = applicationMapper.getApplyUserIdsByCommunityId(communityId); //申请加入社区的用户id，且状态为未处理
                 CommunityVO community = communityService.getCommunityById(communityId);
                 map.put(community, applyUserIds);
             }

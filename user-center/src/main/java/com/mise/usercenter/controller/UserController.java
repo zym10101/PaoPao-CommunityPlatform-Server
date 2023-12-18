@@ -3,7 +3,9 @@ package com.mise.usercenter.controller;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mise.usercenter.domain.entity.Post;
+import com.mise.usercenter.domain.entity.User;
 import com.mise.usercenter.domain.vo.*;
+import com.mise.usercenter.domain.vo.community.CommunityVO;
 import com.mise.usercenter.service.OssService;
 import com.mise.usercenter.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author whm
@@ -249,5 +252,11 @@ public class UserController {
             return Response.success(200, "获取评论成功", commentResponseVOS);
         }
         return Response.failed(999, "用户未登录");
+    }
+
+    @GetMapping("/getApplicationByAdminId")
+    public Response<Map<CommunityVO, List<User>>> getApplicationByAdminId(@RequestParam long adminID) {
+        Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId(18L);
+        return Response.success(applicationByAdminId);
     }
 }

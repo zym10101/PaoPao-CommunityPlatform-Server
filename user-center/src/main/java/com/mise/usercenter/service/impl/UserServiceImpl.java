@@ -286,32 +286,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<CommunityVO, List<User>> getApplicationByAdminId(@RequestParam String userId) {
-        R<Map<CommunityVO, List<Long>>> applicationByAdminId = communityClient.getApplicationByAdminId(userId);
-        Map<CommunityVO, List<Long>> map = applicationByAdminId.getData();
+    public Map<CommunityVO, List<User>> getApplicationByAdminId(@RequestParam long adminID) {
+        System.out.println(communityClient.getApplicationByAdminId(adminID));
+        Response<Map<CommunityVO, List<String>>> r = communityClient.getApplicationByAdminId(adminID);
+        if(r.getCode() == 1) {
+            Map<CommunityVO, List<String>> map = r.getData();
 
-        Map<CommunityVO, List<User>> res = new HashMap<>();
-        map.forEach((community, IdList) -> {
-            List<User> userList = new ArrayList<>();
-            for (Long id : IdList) { // 用户id
-                QueryWrapper<User> wrapper = new QueryWrapper<>();
-                wrapper.lambda()
-                        .eq(User::getUserId, id)
-                        .select(User::getUserId, User::getUserName, User::getPhone);
-                try {
-                    User user = userMapper.selectOne(wrapper);
-                    if(user == null) {
-                        log.error("No such userId: {}", id);
+            Map<CommunityVO, List<User>> res = new HashMap<>();
+            map.forEach((community, IdList) -> {
+                List<User> userList = new ArrayList<>();
+                for (String id : IdList) { // 用户id
+                    QueryWrapper<User> wrapper = new QueryWrapper<>();
+                    wrapper.lambda()
+                            .eq(User::getUserId, id)
+                            .select(User::getUserId, User::getUserName, User::getPhone);
+                    try {
+                        User user = userMapper.selectOne(wrapper);
+                        if(user == null) {
+                            log.error("No such userId: {}", id);
+                        }
+                        userList.add(user);
+                    } catch (TooManyResultsException e) {
+                        log.error("Duplicated userId: {}",id);
+                        userList.add(null);
                     }
-                    userList.add(user);
-                } catch (TooManyResultsException e) {
-                    log.error("Duplicated userId: {}",id);
-                    userList.add(null);
                 }
-            }
-            res.put(community, userList);
-        });
-        return res;
+                res.put(community, userList);
+            });
+            return res;
+        }
+        return null;
     }
 
 }
