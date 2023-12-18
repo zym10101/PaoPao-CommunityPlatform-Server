@@ -3,10 +3,7 @@ package com.mise.communitycenter.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mise.communitycenter.domain.entity.Community;
 import com.mise.communitycenter.domain.vo.MemberVO;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -75,4 +72,11 @@ public interface CommunityMapper extends BaseMapper<Community> {
 
     @Select("select community_id from community order by create_time desc limit 1")
     Long findLatestCommunityId();
+
+    @Update("update community_user " +
+            "set role = 1 " +
+            "where community_id = #{community_id} " +
+            "and " +
+            "user_id = #{userId}")
+    boolean setAdmin(long community_id, long userId);
 }

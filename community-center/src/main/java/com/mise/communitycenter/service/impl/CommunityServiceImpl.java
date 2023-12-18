@@ -1,6 +1,7 @@
 package com.mise.communitycenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.mise.communitycenter.domain.entity.Community;
 import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.domain.vo.MemberVO;
@@ -99,6 +100,11 @@ public class CommunityServiceImpl implements CommunityService {
     public List<CommunityVO> showHotAndInterestingCommunities(long userID) {
         // TODO: 调用大数据模块提供的接口进行社区推荐
         return null;
+    }
+
+    @Override
+    public boolean setAdmin(long community_id, long userId) {
+        return communityMapper.setAdmin(community_id, userId);
     }
 
     @Override

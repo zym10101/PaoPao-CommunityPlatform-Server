@@ -33,6 +33,11 @@ class CommunityTest {
     }
 
     @Test
+    public void set_admin_test() {
+        communityService.setAdmin(210, 12);
+    }
+
+    @Test
     public void delete_member_test() {
         communityService.deleteMember(206, 20);
     }

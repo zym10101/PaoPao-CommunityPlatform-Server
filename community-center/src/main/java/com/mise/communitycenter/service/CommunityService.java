@@ -57,6 +57,14 @@ public interface CommunityService {
      */
     List<CommunityVO> showHotAndInterestingCommunities(long userID);
 
+    /**
+     * 将社区的现有成员设置为管理员
+     * @param userId
+     * @param community_id
+     * @return
+     */
+    boolean setAdmin(long community_id, long userId);
+
 
     /**
      * 根据社区id查询社区信息

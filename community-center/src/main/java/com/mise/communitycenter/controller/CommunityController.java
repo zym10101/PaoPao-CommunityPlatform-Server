@@ -75,6 +75,15 @@ public class CommunityController {
         return Response.success(community);
     }
 
+    @GetMapping("/setAdmin")
+    public Response setAdmin(@RequestParam long communityId, @RequestParam long userId) {
+        boolean res = communityService.setAdmin(communityId, userId);
+        if(!res) {
+            return Response.failed("设置管理员失败");
+        }
+        return Response.success();
+    }
+
     @GetMapping("/getCreatedCommunityById")
     public Response getCreatedCommunityById(@RequestParam long userId) {
         List<CommunityVO> communityVOs = new ArrayList<CommunityVO>();

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.mise.communitycenter.domain.entity.Application;
 import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.enums.ApplicationStatus;
+import com.mise.communitycenter.enums.Role;
 import com.mise.communitycenter.mapper.ApplicationMapper;
 import com.mise.communitycenter.mapper.CommunityMapper;
 import com.mise.communitycenter.service.ApplicationService;
@@ -62,7 +63,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         wrapper.set("handler_id", handlerID);
         wrapper.set("handle_time", TimeUtil.getCurrentTime());
         int result = applicationMapper.update(null, wrapper);
-        communityService.addMember(communityID, userID);
+        communityService.addMember(communityID, userID, Role.MEMBER);
         return result == 1;
     }
 
