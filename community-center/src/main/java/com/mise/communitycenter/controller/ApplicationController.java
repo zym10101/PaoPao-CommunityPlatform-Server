@@ -1,5 +1,7 @@
 package com.mise.communitycenter.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.mise.communitycenter.domain.vo.ApplicationCheckVO;
 import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.domain.vo.R;
 import com.mise.communitycenter.domain.vo.Response;
@@ -61,10 +63,10 @@ public class ApplicationController {
 
     @GetMapping("/getApplicationByAdminId")
     public Response getApplicationByAdminId(@RequestParam long adminID) {
-        Map<CommunityVO, List<String>> applicationMap = applicationService.getApplicationByAdminId(adminID);
+        List<ApplicationCheckVO> applicationMap = applicationService.getApplicationByAdminId(adminID);
         if(applicationMap == null) {
             return Response.failed("查询申请列表失败");
         }
-        return Response.success(applicationMap);
+        return Response.success(JSON.toJSON(applicationMap));
     }
 }

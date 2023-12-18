@@ -1,10 +1,9 @@
 package com.mise.usercenter.service;
 
+import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.entity.User;
 import com.mise.usercenter.domain.vo.*;
-import com.mise.usercenter.domain.vo.community.CommunityVO;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;

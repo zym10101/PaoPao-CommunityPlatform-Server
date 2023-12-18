@@ -3,13 +3,15 @@ package com.mise.usercenter.service.impl;
 import cn.dev33.satoken.secure.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mise.communitycenter.domain.vo.ApplicationCheckVO;
+import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.usercenter.client.CommunityClient;
 import com.mise.usercenter.client.PostClient;
 import com.mise.usercenter.domain.entity.Comment;
 import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.entity.User;
 import com.mise.usercenter.domain.vo.*;
-import com.mise.usercenter.domain.vo.community.CommunityVO;
 import com.mise.usercenter.mapper.UserMapper;
 import com.mise.usercenter.service.UserService;
 import com.mise.usercenter.utils.RedisCache;
@@ -20,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -287,15 +291,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<CommunityVO, List<User>> getApplicationByAdminId(@RequestParam long adminID) {
-        System.out.println(communityClient.getApplicationByAdminId(adminID));
-        Response<Map<CommunityVO, List<String>>> r = communityClient.getApplicationByAdminId(adminID);
-        if(r.getCode() == 1) {
-            Map<CommunityVO, List<String>> map = r.getData();
+        Response<Object> r = communityClient.getApplicationByAdminId(adminID);
+        if(r.getCode() == 200) {
+            List<LinkedHashMap<List, LinkedHashMap>> rsp = (List<LinkedHashMap<List, LinkedHashMap>>) r.getData();
 
             Map<CommunityVO, List<User>> res = new HashMap<>();
-            map.forEach((community, IdList) -> {
+            for (LinkedHashMap<List, LinkedHashMap> data : rsp) {
+                List<Integer> userIdList = (List<Integer>) data.get("userIdList");
+                LinkedHashMap<String, Object> communityMap = (LinkedHashMap<String, Object>) data.get("communityVO");
+                CommunityVO communityVO = initCommunityVO(communityMap);
                 List<User> userList = new ArrayList<>();
-                for (String id : IdList) { // 用户id
+                for (Integer id : userIdList) { //根据userid查完整的user信息
                     QueryWrapper<User> wrapper = new QueryWrapper<>();
                     wrapper.lambda()
                             .eq(User::getUserId, id)
@@ -311,11 +317,29 @@ public class UserServiceImpl implements UserService {
                         userList.add(null);
                     }
                 }
-                res.put(community, userList);
-            });
+                res.put(communityVO, userList);
+            }
             return res;
         }
         return null;
+    }
+
+    private CommunityVO initCommunityVO(LinkedHashMap<String, Object> map) {
+        CommunityVO communityVO = new CommunityVO();
+        communityVO.setCommunityID((Integer) map.get("communityID"));
+        communityVO.setName((String) map.get("name"));
+        communityVO.setCommunityID((Integer) map.get("communityID"));
+        communityVO.setPublic((boolean) map.get("isPublic"));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+        // 将字符串解析为 OffsetDateTime
+        OffsetDateTime offsetDateTime = OffsetDateTime.parse(map.get("createTime").toString(), formatter);
+
+        // 将 OffsetDateTime 转换为 Date
+        Date date = Date.from(offsetDateTime.toInstant());
+        communityVO.setCreateTime(date);
+        return communityVO;
     }
 
 }

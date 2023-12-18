@@ -1,6 +1,7 @@
 package com.mise.communitycenter.service;
 
 
+import com.mise.communitycenter.domain.vo.ApplicationCheckVO;
 import com.mise.communitycenter.domain.vo.CommunityVO;
 import org.apache.catalina.User;
 
@@ -49,5 +50,5 @@ public interface ApplicationService {
      * @param adminId 管理员id
      * @return key-管理的社区id， value-申请加入社区的用户idList
      */
-    Map<CommunityVO, List<String>> getApplicationByAdminId(long adminId);
+    List<ApplicationCheckVO> getApplicationByAdminId(long adminId);
 }

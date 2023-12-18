@@ -19,7 +19,7 @@ public interface CommunityMapper extends BaseMapper<Community> {
      * @param communityID 社区id
      * @return 社区成员id列表
      */
-    @Select("select member_id from community_member " +
+    @Select("select member_id from community_user " +
             "where community_id = #{communityID}")
     List<Long> findCommunityMembers(long communityID);
 
@@ -58,8 +58,8 @@ public interface CommunityMapper extends BaseMapper<Community> {
      * @param adminId 管理员id
      * @return 社区idList
      */
-    @Select("select community_id from community_admin " +
-            "where admin_id = #{adminId}")
+    @Select("select community_id from community_user " +
+            "where user_id = #{adminId} and role != 2")
     List<Long> getCommunitiesByAdminId(long adminId);
 
     @Insert("insert into community_user (community_id, user_id, role) " +

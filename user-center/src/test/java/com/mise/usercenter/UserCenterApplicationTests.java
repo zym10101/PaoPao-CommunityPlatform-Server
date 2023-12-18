@@ -1,7 +1,7 @@
 package com.mise.usercenter;
 
+import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.usercenter.domain.entity.User;
-import com.mise.usercenter.domain.vo.community.CommunityVO;
 import com.mise.usercenter.service.SmsService;
 import com.mise.usercenter.service.UCService;
 import com.mise.usercenter.service.UserService;
@@ -39,7 +39,8 @@ class UserCenterApplicationTests {
 
     @Test
     void test_user_community() {
-        Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId(18L);
+        Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId(20L);
+        int a=1;
     }
 
 }

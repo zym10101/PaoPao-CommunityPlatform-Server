@@ -3,6 +3,7 @@ package com.mise.communitycenter.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.mise.communitycenter.domain.entity.Application;
+import com.mise.communitycenter.domain.vo.ApplicationCheckVO;
 import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.enums.ApplicationStatus;
 import com.mise.communitycenter.enums.Role;
@@ -80,20 +81,25 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Map<CommunityVO, List<String>> getApplicationByAdminId(long adminId) {
-        Map<CommunityVO, List<String>> map = new HashMap<>();
+    public List<ApplicationCheckVO> getApplicationByAdminId(long adminId) {
+        List<ApplicationCheckVO> res = new ArrayList<>();
         // 先查管理员管理的所有社区的id
         try {
             List<Long> communityIds = communityMapper.getCommunitiesByAdminId(adminId);
             for (Long communityId : communityIds) {
-                List<String> applyUserIds = applicationMapper.getApplyUserIdsByCommunityId(communityId); //申请加入社区的用户id，且状态为未处理
-                CommunityVO community = communityService.getCommunityById(communityId);
-                map.put(community, applyUserIds);
+                ApplicationCheckVO applicationCheckVO = new ApplicationCheckVO();
+                CommunityVO community = communityService.getCommunityById(communityId); // 查社区详情
+                applicationCheckVO.setCommunityVO(community);
+
+                List<Long> applyUserIds = applicationMapper.getApplyUserIdsByCommunityId(communityId); //申请加入社区的用户id，且状态为未处理
+                applicationCheckVO.setUserIdList(applyUserIds);
+
+                res.add(applicationCheckVO);
             }
         } catch (Exception e) {
             log.error("Get application map failed, related admin id is {}", adminId);
             return null;
         }
-        return map;
+        return res;
     }
 }

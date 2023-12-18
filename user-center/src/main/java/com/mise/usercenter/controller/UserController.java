@@ -2,10 +2,10 @@ package com.mise.usercenter.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.entity.User;
 import com.mise.usercenter.domain.vo.*;
-import com.mise.usercenter.domain.vo.community.CommunityVO;
 import com.mise.usercenter.service.OssService;
 import com.mise.usercenter.service.UserService;
 import lombok.RequiredArgsConstructor;
