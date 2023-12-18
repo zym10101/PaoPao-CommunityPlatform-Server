@@ -6,9 +6,11 @@ import com.mise.communitycenter.domain.vo.MemberVO;
 import com.mise.communitycenter.domain.vo.PostVO;
 import com.mise.communitycenter.domain.vo.Response;
 import com.mise.communitycenter.service.CommunityService;
+import com.mise.communitycenter.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -88,6 +90,48 @@ public class CommunityController {
             return Response.failed("删除管理员失败");
         }
         return Response.success();
+    }
+
+    @GetMapping("/getCreatedCommunityById")
+    public Response getCreatedCommunityById(@RequestParam long userId) {
+        List<CommunityVO> communityVOs = new ArrayList<CommunityVO>();
+        CommunityVO communityVO = new CommunityVO();
+        communityVO.setCommunityID(200);
+        communityVO.setName("1111");
+        communityVO.setCreateTime(TimeUtil.getCurrentTime());
+        communityVO.setPublic(true);
+        communityVOs.add(communityVO);
+        communityVOs.add(communityVO);
+        communityVOs.add(communityVO);
+        return Response.success(communityVOs);
+    }
+
+    @GetMapping("/getManagedCommunityById")
+    public Response getManagedCommunityById(@RequestParam long userId) {
+        List<CommunityVO> communityVOs = new ArrayList<CommunityVO>();
+        CommunityVO communityVO = new CommunityVO();
+        communityVO.setCommunityID(200);
+        communityVO.setName("2222");
+        communityVO.setCreateTime(TimeUtil.getCurrentTime());
+        communityVO.setPublic(true);
+        communityVOs.add(communityVO);
+        communityVOs.add(communityVO);
+        communityVOs.add(communityVO);
+        return Response.success(communityVOs);
+    }
+
+    @GetMapping("/getJoinedCommunityById")
+    public Response getJoinedCommunityById(@RequestParam long userId) {
+        List<CommunityVO> communityVOs = new ArrayList<CommunityVO>();
+        CommunityVO communityVO = new CommunityVO();
+        communityVO.setCommunityID(200);
+        communityVO.setName("3333");
+        communityVO.setCreateTime(TimeUtil.getCurrentTime());
+        communityVO.setPublic(true);
+        communityVOs.add(communityVO);
+        communityVOs.add(communityVO);
+        communityVOs.add(communityVO);
+        return Response.success(communityVOs);
     }
 
 

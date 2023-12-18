@@ -72,4 +72,7 @@ public interface CommunityMapper extends BaseMapper<Community> {
     @Delete("delete from community_admin " +
             "where community_id = #{communityId} and admin_id = #{userId}")
     boolean removeAdmin(long communityId, long userId);
+
+    @Select("select community_id from community order by create_time desc limit 1")
+    Long findLatestCommunityId();
 }

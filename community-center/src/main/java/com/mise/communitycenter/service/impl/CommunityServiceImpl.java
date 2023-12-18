@@ -31,7 +31,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public boolean createCommunity(long userID, CommunityVO communityVO) {
         Community community = new Community();
-        community.setCommunityId(communityVO.getCommunityID());
+        community.setCommunityId(getLastCommunityId() + 1);
         community.setPublic(communityVO.isPublic());
         community.setCreateTime(communityVO.getCreateTime());
         community.setName(communityVO.getName());
@@ -40,7 +40,7 @@ public class CommunityServiceImpl implements CommunityService {
             return false;
         }
         // 创建者设为社区管理员
-        return addAdmin(communityVO.getCommunityID(), userID);
+        return addAdmin(community.getCommunityId(), userID);
     }
 
     @Override
@@ -130,4 +130,13 @@ public class CommunityServiceImpl implements CommunityService {
             return null;
         }
     }
+
+    public Long getLastCommunityId() {
+        Long lastCommunityId = communityMapper.findLatestCommunityId();
+        if (lastCommunityId != null) {
+            return lastCommunityId;
+        }
+        return 0L;
+    }
+
 }
