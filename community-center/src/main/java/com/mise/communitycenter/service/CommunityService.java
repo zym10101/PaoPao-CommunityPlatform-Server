@@ -28,6 +28,27 @@ public interface CommunityService {
     List<MemberVO> getCommunityMembers(long communityID);
 
     /**
+     * 获取用户创建的社区
+     * @param userID
+     * @return 创建的社区列表
+     */
+    List<CommunityVO> getCreatedCommunity(long userID);
+
+    /**
+     * 获取用户管理的社区
+     * @param userID
+     * @return 管理的社区列表
+     */
+    List<CommunityVO> getManagedCommunity(long userID);
+
+    /**
+     * 获取用户加入的社区，普通用户
+     * @param userID
+     * @return 加入的社区列表
+     */
+    List<CommunityVO> getJoinedCommunity(long userID);
+
+    /**
      * 获取社区内的帖子
      * @param communityID 社区id
      * @return 帖子列表

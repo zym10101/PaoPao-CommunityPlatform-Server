@@ -56,7 +56,7 @@ CREATE TABLE `community` (
   `is_public` tinyint(1) NOT NULL,
   `create_time` date NOT NULL,
   `name` varchar(255) NOT NULL COMMENT '社区名字',
-  PRIMARY KEY (`community_id`)
+  PRIMARY KEY (`community_id`, `name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -66,55 +66,33 @@ CREATE TABLE `community` (
 
 LOCK TABLES `community` WRITE;
 /*!40000 ALTER TABLE `community` DISABLE KEYS */;
-INSERT INTO `community` VALUES (2,1,'2023-11-01',''),(3,1,'2023-11-02',''),(4,1,'2023-11-03',''),(5,1,'2023-11-04',''),(6,1,'2023-11-05',''),(7,1,'2023-11-06',''),(8,1,'2023-11-07',''),(9,1,'2023-11-08',''),(10,1,'2023-11-09',''),(11,1,'2023-11-10',''),(12,1,'2023-11-11',''),(13,1,'2023-11-12',''),(14,1,'2023-11-13',''),(15,1,'2023-11-14',''),(16,1,'2023-11-15',''),(17,1,'2023-11-16',''),(18,1,'2023-11-17',''),(19,1,'2023-11-18',''),(20,1,'2023-11-19',''),(21,1,'2023-11-20',''),(22,1,'2023-11-21',''),(23,1,'2023-11-22',''),(24,1,'2023-11-23',''),(25,1,'2023-11-24',''),(26,1,'2023-11-25',''),(27,1,'2023-11-26',''),(28,1,'2023-11-27',''),(29,1,'2023-11-28',''),(30,1,'2023-11-29',''),(31,1,'2023-11-30','');
+INSERT INTO `community` VALUES (1,1,'2023-11-01','薅羊毛小队'),(2,1,'2023-11-01','薅羊毛小分队'),(3,1,'2023-11-02','华为鸿蒙'),(4,1,'2023-11-03','汽车'),(5,1,'2023-11-04','壁纸'),(6,1,'2023-11-05','好物安利'),(7,1,'2023-11-06','谷歌相机'),(8,1,'2023-11-07','今日热点'),(9,1,'2023-11-08','美食家'),(10,1,'2023-11-09','沙雕乐园'),(11,1,'2023-11-10','手机摄影'),(12,1,'2023-11-11','开箱评测'),(13,1,'2023-11-12','爱桌面'),(14,1,'2023-11-13','考研'),(15,1,'2023-11-14','鸿蒙4.0'),(16,1,'2023-11-15','键盘'),(17,1,'2023-11-16','机械键盘'),(18,1,'2023-11-17','刷机'),(19,1,'2023-11-18','原神'),(20,1,'2023-11-19','玩机技巧'),(21,1,'2023-11-20','耳机发烧友'),(22,1,'2023-11-21','LCD永不为奴'),(23,1,'2023-11-22','骑行'),(24,1,'2023-11-23','好电影'),(25,1,'2023-11-24','每日游戏资讯'),(26,1,'2023-11-25','电动车'),(27,1,'2023-11-26','跑步'),(28,1,'2023-11-27','穿衣搭配'),(29,1,'2023-11-28','提车报告'),(30,1,'2023-11-29','超级壁纸'),(31,1,'2023-11-30','宿舍生活好物');
 /*!40000 ALTER TABLE `community` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `community_admin`
+-- Table structure for table `community_user`
 --
 
-DROP TABLE IF EXISTS `community_admin`;
+DROP TABLE IF EXISTS `community_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `community_admin` (
+CREATE TABLE `community_user` (
   `community_id` int NOT NULL,
-  `admin_id` int NOT NULL
+  `user_id` int NOT NULL,
+  `role` int NOT NULL,
+  PRIMARY KEY (`community_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `community_admin`
+-- Dumping data for table `community_user`
 --
 
-LOCK TABLES `community_admin` WRITE;
-/*!40000 ALTER TABLE `community_admin` DISABLE KEYS */;
-INSERT INTO `community_admin` VALUES (1,1),(2,2),(3,2),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10);
-/*!40000 ALTER TABLE `community_admin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `community_member`
---
-
-DROP TABLE IF EXISTS `community_member`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `community_member` (
-  `community_id` int NOT NULL,
-  `member_id` int NOT NULL,
-  PRIMARY KEY (`community_id`,`member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `community_member`
---
-
-LOCK TABLES `community_member` WRITE;
-/*!40000 ALTER TABLE `community_member` DISABLE KEYS */;
-INSERT INTO `community_member` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,111),(2,1);
-/*!40000 ALTER TABLE `community_member` ENABLE KEYS */;
+LOCK TABLES `community_user` WRITE;
+/*!40000 ALTER TABLE `community_user` DISABLE KEYS */;
+INSERT INTO `community_user` VALUES (1,1,0),(1,2,1),(1,3,1),(1,4,2),(1,5,2),(1,6,2),(1,7,2),(1,8,2),(1,9,2),(1,10,2),(1,111,2),(2,1,0);
+/*!40000 ALTER TABLE `community_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
