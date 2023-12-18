@@ -2,6 +2,7 @@ package com.mise.communitycenter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mise.communitycenter.domain.entity.Community;
+import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.domain.vo.MemberVO;
 import org.apache.ibatis.annotations.*;
 
@@ -19,9 +20,37 @@ public interface CommunityMapper extends BaseMapper<Community> {
      * @param communityID 社区id
      * @return 社区成员id列表
      */
-    @Select("select member_id from community_user " +
+    @Select("select user_id from community_user " +
             "where community_id = #{communityID}")
     List<Long> findCommunityMembers(long communityID);
+
+    /**
+     * 根据用户id查询用户创建的社区列表
+     * @param userId
+     * @return 创建的社区列表
+     */
+    @Select("select community_id from community_user " +
+            "where user_id = #{userId} and role = 0")
+    List<Long> getCreatedCommunity(long userId);
+
+    /**
+     * 根据用户id查询用户创建的社区列表
+     * @param userId
+     * @return 创建的社区列表
+     */
+    @Select("select community_id from community_user " +
+            "where user_id = #{userId} and role = 1")
+    List<Long> getManagedCommunity(long userId);
+
+    /**
+     * 根据用户id查询用户创建的社区列表
+     * @param userId
+     * @return 创建的社区列表
+     */
+    @Select("select community_id from community_user " +
+            "where user_id = #{userId} and role = 2")
+    List<Long> getJoinedCommunity(long userId);
+
 
     /**
      * 根据社区id查询社区帖子
@@ -59,19 +88,20 @@ public interface CommunityMapper extends BaseMapper<Community> {
      * @return 社区idList
      */
     @Select("select community_id from community_user " +
-            "where user_id = #{adminId} and role != 2")
+            "where user_id = #{adminId} and (role = 0 or role = 1)")
     List<Long> getCommunitiesByAdminId(long adminId);
 
     @Insert("insert into community_user (community_id, user_id, role) " +
             "values (#{communityId}, #{userId}, 0)")
     boolean addAdmin(long communityId, long userId);
 
-    @Delete("delete from community_user " +
+    @Update("update community_user " +
+            "set role = 2 " +
             "where community_id = #{communityId} and user_id = #{userId}")
     boolean removeAdmin(long communityId, long userId);
 
-    @Select("select community_id from community order by create_time desc limit 1")
-    Long findLatestCommunityId();
+    @Select("select community_id from community where name = #{name}")
+    Long findCommunityIdByName(String name);
 
     @Update("update community_user " +
             "set role = 1 " +

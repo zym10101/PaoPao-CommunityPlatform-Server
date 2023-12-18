@@ -36,12 +36,15 @@ public class CommunityServiceImpl implements CommunityService {
         community.setPublic(communityVO.isPublic());
         community.setCreateTime(communityVO.getCreateTime());
         community.setName(communityVO.getName());
+        if(communityMapper.findCommunityIdByName(communityVO.getName()) != null){
+            return false;
+        }
         int result = communityMapper.insert(community);
         if (result != 1) {
             return false;
         }
         // 先插入再查id
-        Long communityId = getLastCommunityId();
+        Long communityId = getLastCommunityId(communityVO.getName());
         // 创建者
         return addMember(communityId, userID, Role.CREATOR);
     }
@@ -59,6 +62,39 @@ public class CommunityServiceImpl implements CommunityService {
             members.add(member);
         }
         return members;
+    }
+
+    @Override
+    public List<CommunityVO> getCreatedCommunity(long userID) {
+        List<Long> communityIDs = communityMapper.getCreatedCommunity(userID);
+        List<CommunityVO> communityVOs = new ArrayList<>();
+        for (Long id : communityIDs) {
+            CommunityVO communityVO = getCommunityById(id);
+            communityVOs.add(communityVO);
+        }
+        return communityVOs;
+    }
+
+    @Override
+    public List<CommunityVO> getManagedCommunity(long userID) {
+        List<Long> communityIDs = communityMapper.getManagedCommunity(userID);
+        List<CommunityVO> communityVOs = new ArrayList<>();
+        for (Long id : communityIDs) {
+            CommunityVO communityVO = getCommunityById(id);
+            communityVOs.add(communityVO);
+        }
+        return communityVOs;
+    }
+
+    @Override
+    public List<CommunityVO> getJoinedCommunity(long userID) {
+        List<Long> communityIDs = communityMapper.getJoinedCommunity(userID);
+        List<CommunityVO> communityVOs = new ArrayList<>();
+        for (Long id : communityIDs) {
+            CommunityVO communityVO = getCommunityById(id);
+            communityVOs.add(communityVO);
+        }
+        return communityVOs;
     }
 
     @Override
@@ -129,8 +165,8 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    public Long getLastCommunityId() {
-        Long lastCommunityId = communityMapper.findLatestCommunityId();
+    public Long getLastCommunityId(String name) {
+        Long lastCommunityId = communityMapper.findCommunityIdByName(name);
         if (lastCommunityId != null) {
             return lastCommunityId;
         }

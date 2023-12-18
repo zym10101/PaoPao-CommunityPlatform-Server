@@ -38,6 +38,35 @@ public class CommunityController {
         return Response.success(members);
     }
 
+
+    @GetMapping("/getCreatedCommunity")
+    public Response getCreatedCommunity(@RequestParam long userID) {
+        List<CommunityVO> communityVOs = communityService.getCreatedCommunity(userID);
+        if(communityVOs == null){
+            return Response.failed();
+        }
+        return Response.success(communityVOs);
+    }
+
+
+    @GetMapping("/getManagedCommunity")
+    public Response getManagedCommunity(@RequestParam long userID) {
+        List<CommunityVO> communityVOs = communityService.getManagedCommunity(userID);
+        if(communityVOs == null){
+            return Response.failed();
+        }
+        return Response.success(communityVOs);
+    }
+
+    @GetMapping("/getJoinedCommunity")
+    public Response getJoinedCommunity(@RequestParam long userID) {
+        List<CommunityVO> communityVOs = communityService.getJoinedCommunity(userID);
+        if(communityVOs == null){
+            return Response.failed();
+        }
+        return Response.success(communityVOs);
+    }
+
     @GetMapping("/getCommunityPosts")
     public Response getCommunityPosts(@RequestParam long communityID) {
         List<PostVO> posts = communityService.getPosts(communityID);
