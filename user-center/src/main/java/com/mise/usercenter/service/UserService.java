@@ -1,9 +1,13 @@
 package com.mise.usercenter.service;
 
 import com.mise.usercenter.domain.entity.Post;
+import com.mise.usercenter.domain.entity.User;
 import com.mise.usercenter.domain.vo.*;
+import com.mise.usercenter.domain.vo.community.CommunityVO;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author whm
@@ -43,4 +47,7 @@ public interface UserService {
     List<PostResponseVO> getRecentPosts();
 
     List<CommentResponseVO> getComment(String postId);
+
+    Map<CommunityVO, List<User>> getApplicationByAdminId(String userId);
+
 }

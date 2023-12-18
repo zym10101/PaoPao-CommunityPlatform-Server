@@ -2,6 +2,7 @@ package com.mise.communitycenter.service;
 
 
 import com.mise.communitycenter.domain.vo.CommunityVO;
+import org.apache.catalina.User;
 
 import java.util.List;
 import java.util.Map;

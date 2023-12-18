@@ -31,7 +31,6 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public boolean createCommunity(long userID, CommunityVO communityVO) {
         Community community = new Community();
-        community.setCommunityId(getLastCommunityId() + 1);
         community.setPublic(communityVO.isPublic());
         community.setCreateTime(communityVO.getCreateTime());
         community.setName(communityVO.getName());
@@ -39,8 +38,10 @@ public class CommunityServiceImpl implements CommunityService {
         if (result != 1) {
             return false;
         }
+        // 先插入再查id
+        Long communityId = getLastCommunityId();
         // 创建者设为社区管理员
-        return addAdmin(community.getCommunityId(), userID);
+        return addAdmin(communityId, userID);
     }
 
     @Override

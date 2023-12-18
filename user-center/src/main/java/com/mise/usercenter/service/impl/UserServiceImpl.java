@@ -2,25 +2,31 @@ package com.mise.usercenter.service.impl;
 
 import cn.dev33.satoken.secure.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mise.usercenter.client.CommunityClient;
 import com.mise.usercenter.client.PostClient;
 import com.mise.usercenter.domain.entity.Comment;
 import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.entity.User;
 import com.mise.usercenter.domain.vo.*;
+import com.mise.usercenter.domain.vo.community.CommunityVO;
 import com.mise.usercenter.mapper.UserMapper;
 import com.mise.usercenter.service.UserService;
 import com.mise.usercenter.utils.RedisCache;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.exceptions.TooManyResultsException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author whm
  * @date 2023/10/24 15:54
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -29,6 +35,9 @@ public class UserServiceImpl implements UserService {
     private final RedisCache redisCache;
 
     private final PostClient postClient;
+
+    @Autowired
+    private CommunityClient communityClient;
 
     @Override
     public Long login(String userName, String password) {
@@ -275,4 +284,34 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public Map<CommunityVO, List<User>> getApplicationByAdminId(@RequestParam String userId) {
+        R<Map<CommunityVO, List<Long>>> applicationByAdminId = communityClient.getApplicationByAdminId(userId);
+        Map<CommunityVO, List<Long>> map = applicationByAdminId.getData();
+
+        Map<CommunityVO, List<User>> res = new HashMap<>();
+        map.forEach((community, IdList) -> {
+            List<User> userList = new ArrayList<>();
+            for (Long id : IdList) { // 用户id
+                QueryWrapper<User> wrapper = new QueryWrapper<>();
+                wrapper.lambda()
+                        .eq(User::getUserId, id)
+                        .select(User::getUserId, User::getUserName, User::getPhone);
+                try {
+                    User user = userMapper.selectOne(wrapper);
+                    if(user == null) {
+                        log.error("No such userId: {}", id);
+                    }
+                    userList.add(user);
+                } catch (TooManyResultsException e) {
+                    log.error("Duplicated userId: {}",id);
+                    userList.add(null);
+                }
+            }
+            res.put(community, userList);
+        });
+        return res;
+    }
+
 }

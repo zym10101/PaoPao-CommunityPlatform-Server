@@ -20,8 +20,8 @@ public class CommunityAdminTest {
     @Test
     public void init_community_admin() {
         CommunityVO communityVO = new CommunityVO();
-        communityVO.setCommunityID(200);
-        communityVO.setName("2222");
+//        communityVO.setCommunityID(201);
+        communityVO.setName("22222211112222");
         communityVO.setCreateTime(TimeUtil.getCurrentTime());
         communityVO.setPublic(true);
         communityService.createCommunity(18, communityVO);
