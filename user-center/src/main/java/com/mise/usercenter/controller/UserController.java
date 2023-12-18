@@ -256,7 +256,7 @@ public class UserController {
 
     @GetMapping("/getApplicationByAdminId")
     public Response<Map<CommunityVO, List<User>>> getApplicationByAdminId(@RequestParam long adminID) {
-        Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId(18L);
+        Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId(adminID);
         return Response.success(applicationByAdminId);
     }
 }
