@@ -62,6 +62,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         wrapper.set("handler_id", handlerID);
         wrapper.set("handle_time", TimeUtil.getCurrentTime());
         int result = applicationMapper.update(null, wrapper);
+        communityService.addMember(communityID, userID);
         return result == 1;
     }
 
