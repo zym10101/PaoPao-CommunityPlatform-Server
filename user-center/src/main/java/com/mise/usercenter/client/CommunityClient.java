@@ -21,4 +21,7 @@ public interface CommunityClient {
     @GetMapping("/application/getApplicationOfCommunity")
     Response<List<Long>> getApplicationOfCommunity(@RequestParam long communityId);
 
+    @GetMapping("/community/getCommunityById")
+    Response<CommunityVO> getCommunityById(@RequestParam long communityID);
+
 }
