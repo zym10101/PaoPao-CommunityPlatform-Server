@@ -10,7 +10,7 @@ import java.util.List;
 public class PostResponseVO implements Serializable {
 
     private String postId;
-    private String communityId;
+    private String communityName;
     private Boolean isPublic;
     private List<String> tagList;
     private String title;

@@ -40,8 +40,7 @@ public class UserServiceImpl implements UserService {
 
     private final PostClient postClient;
 
-    @Autowired
-    private CommunityClient communityClient;
+    private final CommunityClient communityClient;
 
     @Override
     public Long login(String userName, String password) {
@@ -180,7 +179,8 @@ public class UserServiceImpl implements UserService {
                 }
                 PostResponseVO postResponseVO = new PostResponseVO();
                 postResponseVO.setPostId(post.getPostId().toString());
-                postResponseVO.setCommunityId(post.getCommunityId().toString());
+                String name = communityClient.getCommunityById(post.getCommunityId()).getData().getName();
+                postResponseVO.setPostId(name);
                 postResponseVO.setIsPublic(post.getIsPublic());
                 postResponseVO.setTagList(post.getTagList());
                 postResponseVO.setTitle(post.getTitle());
@@ -209,7 +209,8 @@ public class UserServiceImpl implements UserService {
             for (Post post : posts) {
                 PostResponseVO postResponseVO = new PostResponseVO();
                 postResponseVO.setPostId(post.getPostId().toString());
-                postResponseVO.setCommunityId(post.getCommunityId().toString());
+                String name = communityClient.getCommunityById(post.getCommunityId()).getData().getName();
+                postResponseVO.setPostId(name);
                 postResponseVO.setIsPublic(post.getIsPublic());
                 postResponseVO.setTagList(post.getTagList());
                 postResponseVO.setTitle(post.getTitle());
@@ -247,7 +248,8 @@ public class UserServiceImpl implements UserService {
             for (Post post : posts) {
                 PostResponseVO postResponseVO = new PostResponseVO();
                 postResponseVO.setPostId(post.getPostId().toString());
-                postResponseVO.setCommunityId(post.getCommunityId().toString());
+                String name = communityClient.getCommunityById(post.getCommunityId()).getData().getName();
+                postResponseVO.setCommunityName(name);
                 postResponseVO.setIsPublic(post.getIsPublic());
                 postResponseVO.setTagList(post.getTagList());
                 postResponseVO.setTitle(post.getTitle());
