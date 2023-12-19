@@ -40,7 +40,14 @@ class UserCenterApplicationTests {
     @Test
     void test_user_community() {
         Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId(20L);
-        int a=1;
+        for (CommunityVO vo : applicationByAdminId.keySet()) {
+            List<User> users = applicationByAdminId.get(vo);
+            System.out.print(vo.getCommunityID() + ": ");
+            for (User user : users) {
+                System.out.print(user.getUserId() + " ");
+            }
+            System.out.println();
+        }
     }
 
 }
