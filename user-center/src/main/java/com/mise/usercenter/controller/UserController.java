@@ -229,7 +229,7 @@ public class UserController {
         if (StpUtil.isLogin()) {
             List<PostResponseVO> recentPosts = userService.getRecentPosts();
             if (recentPosts == null) {
-                return Response.success(200, "获取最新帖子失败");
+                return Response.failed(999, "获取最新帖子失败");
             }
             return Response.success(200, "获取最新帖子成功", recentPosts);
         }
