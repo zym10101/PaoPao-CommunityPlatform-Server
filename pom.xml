@@ -48,6 +48,10 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.83</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
