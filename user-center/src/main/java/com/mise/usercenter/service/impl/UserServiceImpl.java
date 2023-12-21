@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
                 PostResponseVO postResponseVO = new PostResponseVO();
                 postResponseVO.setPostId(post.getPostId().toString());
                 String name = communityClient.getCommunityById(post.getCommunityId()).getData().getName();
-                postResponseVO.setPostId(name);
+                postResponseVO.setCommunityName(name);
                 postResponseVO.setIsPublic(post.getIsPublic());
                 postResponseVO.setTagList(post.getTagList());
                 postResponseVO.setTitle(post.getTitle());
@@ -210,7 +210,7 @@ public class UserServiceImpl implements UserService {
                 PostResponseVO postResponseVO = new PostResponseVO();
                 postResponseVO.setPostId(post.getPostId().toString());
                 String name = communityClient.getCommunityById(post.getCommunityId()).getData().getName();
-                postResponseVO.setPostId(name);
+                postResponseVO.setCommunityName(name);
                 postResponseVO.setIsPublic(post.getIsPublic());
                 postResponseVO.setTagList(post.getTagList());
                 postResponseVO.setTitle(post.getTitle());
