@@ -1,0 +1,50 @@
+version: "2.10.2"
+services:
+  nginx: # 服务名称，用户自定义
+    image: nginx:latest  # 镜像版本
+    container_name: nginx
+    ports:
+      - 80:80  # 暴露端口
+    volumes: # 挂载
+      - "/usr/local/java/docker/nginx/html:/usr/share/nginx/html"
+      - "/usr/local/java/docker/nginx/nginx.conf:/etc/nginx/nginx.conf"
+    privileged: true # 这个必须要，解决nginx的文件调用的权限问题
+    read_only: false
+  mysql:
+    image: mysql:8.0.35
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - TZ=Asia/Shanghai
+      # 指定用户root的密码
+      - MYSQL_ROOT_PASSWORD=mise2023_njuse123
+    volumes:
+      - "/usr/local/java/docker/mysql/conf:/etc/mysql/conf.d"
+      - "/usr/local/java/docker/mysql/data:/var/lib/mysql"
+      - "/usr/local/java/docker/mysql/init:/docker-entrypoint-initdb.d"
+  redis:
+    image: redis:latest
+    container_name: redis
+    environment:
+      - REDIS_PASSWORD=njuse201250BEEfeng.
+      - TZ=Asia/Shanghai
+    ports:
+      - 6379:6379
+    volumes:
+      - "/usr/local/java/docker/redis/redis.conf:/etc/redis/redis.conf"
+      - "/usr/local/java/docker/redis/data:/data"
+      - "/usr/local/java/docker/redis/sysctl.conf:/etc/sysctl.conf"
+    command: ["redis-server", "--requirepass", "njuse201250BEEfeng."]
+  easyhappy:
+    image: easyhappy:latest
+    container_name: easyhappy
+    environment:
+      - TZ=Asia/Shanghai
+    build: . # 表示以当前目录下的Dockerfile开始构建镜像
+    ports:
+      - 8080:8080
+    depends_on: # 依赖与mysql、redis，其实可以不填，默认已经表示可以
+      - nginx
+      - mysql
+      - redis
