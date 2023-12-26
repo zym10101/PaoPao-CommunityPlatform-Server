@@ -1,6 +1,6 @@
 package com.mise.usercenter.service;
 
-import com.mise.communitycenter.domain.vo.CommunityVO;
+import com.mise.usercenter.domain.vo.CommunityVO;
 import com.mise.usercenter.domain.entity.Post;
 import com.mise.usercenter.domain.entity.User;
 import com.mise.usercenter.domain.vo.*;

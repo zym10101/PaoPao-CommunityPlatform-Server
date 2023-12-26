@@ -73,6 +73,7 @@
     </dependencies>
 
     <build>
+        <finalName>post-center</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

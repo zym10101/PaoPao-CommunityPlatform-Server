@@ -1,5 +1,13 @@
 version: "2.10.2"
 services:
+  nacos:
+    image: nacos/nacos-server:latest
+    container_name: nacos
+    ports:
+      - 8848:8848
+    environment:
+      - MODE=standalone
+    restart: always
   mysql:
     image: mysql:8.0.35
     container_name: mysql
@@ -10,20 +18,20 @@ services:
       # 指定用户root的密码
       - MYSQL_ROOT_PASSWORD=mise2023_njuse123
     volumes:
-      - "/usr/local/java/docker/mysql/conf:/etc/mysql/conf.d"
-      - "/usr/local/java/docker/mysql/data:/var/lib/mysql"
-      - "/usr/local/java/docker/mysql/init:/docker-entrypoint-initdb.d"
+      - /usr/local/mise2023/mysql/conf:/etc/mysql/conf.d
+      - /usr/local/mise2023/mysql/data:/var/lib/mysql
+      - /usr/local/mise2023/mysql/init:/docker-entrypoint-initdb.d
   mongodb:
     image: mongo:latest
     container_name: mongodb
     ports:
       - 27017:27017
     volumes:
-      - ./data:/data/db
+      - /usr/local/mise2023/mongo/data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: <your-mongo-user>
-      MONGO_INITDB_ROOT_PASSWORD: <your-mongo-password>
-      MONGO_INITDB_DATABASE: <your-database-name>
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mise2023_njuse123
+      MONGO_INITDB_DATABASE: postcenter
 
   redis:
     image: redis:latest
@@ -34,10 +42,10 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - "/usr/local/java/docker/redis/redis.conf:/etc/redis/redis.conf"
-      - "/usr/local/java/docker/redis/data:/data"
-      - "/usr/local/java/docker/redis/sysctl.conf:/etc/sysctl.conf"
-    command: ["redis-server", "--requirepass", "njuse201250BEEfeng."]
+      - /usr/local/mise2023/redis.conf:/etc/redis/redis.conf
+      - /usr/local/mise2023/redis/data:/data
+      - /usr/local/mise2023/redis/sysctl.conf:/etc/sysctl.conf
+    command: ["redis-server", "--requirepass", "mise2023_njuse123."]
   community-center:
     image: community-center:latest
     container_name: community-center
@@ -71,6 +79,8 @@ services:
     depends_on:
       - mysql
       - redis
+      - post-center
+      - community-center
   gateway:
     image: gateway:latest
     container_name: gateway
