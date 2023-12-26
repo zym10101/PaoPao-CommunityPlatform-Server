@@ -50,18 +50,21 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public List<MemberVO> getCommunityMembers(long communityID) {
+    public List<Long> getCommunityMembers(long communityID) {
         List<Long> memberIDs = communityMapper.findCommunityMembers(communityID);
-        // TODO: 调用user-center提供的服务查询完整的成员信息
-        List<MemberVO> members = new ArrayList<>();
-        // 模拟
-        for (Long id : memberIDs) {
-            MemberVO member = new MemberVO();
-            member.setUserID(id);
-            member.setName("name" + id);
-            members.add(member);
-        }
-        return members;
+        return memberIDs;
+    }
+
+    @Override
+    public Long getCommunityOwner(long communityID) {
+        Long memberId = communityMapper.findCommunityOwner(communityID);
+        return memberId;
+    }
+
+    @Override
+    public List<Long> getCommunityManagers(long communityID) {
+        List<Long> managerIDs = communityMapper.findCommunityManagers(communityID);
+        return managerIDs;
     }
 
     @Override
@@ -196,6 +199,12 @@ public class CommunityServiceImpl implements CommunityService {
             res.add(community);
         }
         return res;
+    }
+
+    @Override
+    public Boolean getWhetherIn(long userId, long communityId) {
+        Boolean whetherIn = communityMapper.getWhetherIn(userId, communityId);
+        return whetherIn;
     }
 
     public Long getLastCommunityId(String name) {

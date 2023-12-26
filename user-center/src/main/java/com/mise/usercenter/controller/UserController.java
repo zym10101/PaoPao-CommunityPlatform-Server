@@ -208,6 +208,19 @@ public class UserController {
     }
 
     /**
+     * 获取社区中的帖子
+     */
+    @GetMapping("/getAllPosts")
+    public Response getAllPosts(@RequestParam("communityId") long communityId){
+        if (StpUtil.isLogin()) {
+            List<PostResponseVO> posts = userService.getAllPostsByCommunity(communityId);
+            if (posts == null) return Response.success(200, "社区还未发布过帖子");
+            return Response.success(200, "获取社区中的帖子成功", posts);
+        }
+        return Response.failed(999, "用户未登录");
+    }
+
+    /**
      * 获取用户的浏览记录
      */
     @GetMapping("/history")
@@ -259,4 +272,39 @@ public class UserController {
         Map<CommunityVO, List<User>> applicationByAdminId = userService.getApplicationByAdminId(adminID);
         return Response.success(applicationByAdminId);
     }
+
+
+    /**
+     * 获取社区拥有者
+     * @param communityID 社区id
+     * @return Response User类型
+     */
+    @GetMapping("/getCommunityOwner")
+    public Response getCommunityOwner(@RequestParam long communityID) {
+        User user = userService.getCommunityOwner(communityID);
+        return Response.success(user);
+    }
+
+    /**
+     * 获取社区管理员
+     * @param communityID 社区id
+     * @return Response List<User>类型
+     */
+    @GetMapping("/getCommunityManagers")
+    public Response getCommunityManagers(@RequestParam long communityID) {
+        List<User> userList = userService.getCommunityManagers(communityID);
+        return Response.success(userList);
+    }
+
+    /**
+     * 获取社区普通用户
+     * @param communityID 社区id
+     * @return Response List<User>
+     */
+    @GetMapping("/getCommunityMembers")
+    public Response getCommunityMembers(@RequestParam long communityID) {
+        List<User> userList = userService.getCommunityMembers(communityID);
+        return Response.success(userList);
+    }
+
 }

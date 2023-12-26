@@ -25,7 +25,11 @@ public interface CommunityService {
      * @param communityID 社区id
      * @return 社区成员id列表
      */
-    List<MemberVO> getCommunityMembers(long communityID);
+    List<Long> getCommunityMembers(long communityID);
+
+    Long getCommunityOwner(long communityID);
+
+    List<Long> getCommunityManagers(long communityID);
 
     /**
      * 获取用户创建的社区
@@ -107,4 +111,9 @@ public interface CommunityService {
      * @return 社区列表
      */
     List<CommunityVO> getRecommendedCommunities(long userId);
+
+    /**
+     * 判断用户是否在该社区中
+     */
+    Boolean getWhetherIn(long userId, long communityId);
 }

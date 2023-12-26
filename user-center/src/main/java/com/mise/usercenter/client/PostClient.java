@@ -38,6 +38,9 @@ public interface PostClient {
     @GetMapping("/post/likes")
     R<List<Post>> likes(@RequestParam String userId);
 
+    @GetMapping("/post/getAllPosts")
+    R<List<Post>> getAllPosts(@RequestParam String communityId);
+
     @GetMapping("/post/getUserPosts")
     R<List<Post>> getUserPosts(@RequestParam("userId") String userId);
 

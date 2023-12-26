@@ -25,4 +25,13 @@ public interface CommunityClient {
     @GetMapping("/community/getCommunityById")
     Response<CommunityVO> getCommunityById(@RequestParam long communityID);
 
+    @GetMapping("/community/getCommunityOwner")
+    Response<Long> getCommunityOwner(@RequestParam long communityID);
+
+    @GetMapping("/community/getCommunityManagers")
+    Response<List<Long>> getCommunityManagers(@RequestParam long communityID);
+
+    @GetMapping("/community/getCommunityMembers")
+    Response<List<Long>> getCommunityMembers(@RequestParam long communityID);
+
 }

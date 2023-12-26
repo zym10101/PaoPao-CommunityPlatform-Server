@@ -46,9 +46,17 @@ public interface UserService {
 
     List<PostResponseVO> getRecentPosts();
 
+    List<PostResponseVO> getAllPostsByCommunity(long communityId);
+
     List<CommentResponseVO> getComment(String postId);
 
     Map<CommunityVO, List<User>> getApplicationByAdminId(long adminID);
+
+    User getCommunityOwner(long communityID);
+
+    List<User> getCommunityManagers(long communityID);
+
+    List<User> getCommunityMembers(long communityID);
 
 //    List<Long> getApplicationOfCommunity(@RequestParam long communityId);
 //

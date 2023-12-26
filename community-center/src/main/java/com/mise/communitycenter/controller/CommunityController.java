@@ -29,11 +29,29 @@ public class CommunityController {
 
     @GetMapping("/getCommunityMembers")
     public Response getCommunityMembers(@RequestParam long communityID) {
-        List<MemberVO> members = communityService.getCommunityMembers(communityID);
-        if(members == null) {
+        List<Long> membersIds = communityService.getCommunityMembers(communityID);
+        if(membersIds == null) {
             return Response.failed();
         }
-        return Response.success(members);
+        return Response.success(membersIds);
+    }
+
+    @GetMapping("/getCommunityOwner")
+    public Response getCommunityOwner(@RequestParam long communityID) {
+        Long membersIds = communityService.getCommunityOwner(communityID);
+        if(membersIds == null) {
+            return Response.failed();
+        }
+        return Response.success(membersIds);
+    }
+
+    @GetMapping("/getCommunityManagers")
+    public Response getCommunityManagers(@RequestParam long communityID) {
+        List<Long> membersIds = communityService.getCommunityManagers(communityID);
+        if(membersIds == null) {
+            return Response.failed();
+        }
+        return Response.success(membersIds);
     }
 
 
@@ -143,9 +161,22 @@ public class CommunityController {
         List<CommunityVO> communityVOs = communityService.getManagedCommunity(userId);
         List<CommunityVO> communityVOs1 = communityService.getJoinedCommunity(userId);
         if (communityVOs == null){
-            return Response.success(communityVOs);
+            return Response.success(communityVOs1);
         }
         communityVOs.addAll(communityVOs1);
         return Response.success(communityVOs);
+    }
+
+    @GetMapping("/getWhetherIn")
+    public Response getWhetherIn(@RequestParam long userId, @RequestParam long communityId){
+        Boolean whetherIn = communityService.getWhetherIn(userId, communityId);
+        if(whetherIn == null){
+            return Response.failed();
+        }
+        if(whetherIn){
+            return Response.success(true);
+        }else {
+            return Response.success(false);
+        }
     }
 }

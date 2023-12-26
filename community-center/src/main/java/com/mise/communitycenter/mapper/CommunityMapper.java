@@ -15,13 +15,33 @@ import java.util.List;
 @Mapper
 public interface CommunityMapper extends BaseMapper<Community> {
 
+//    /**
+//     * 根据社区id查询社区成员
+//     * @param communityID 社区id
+//     * @return 社区成员id列表
+//     */
+//    @Select("select user_id from community_user " +
+//            "where community_id = #{communityID}")
+
     /**
-     * 根据社区id查询社区成员
-     * @param communityID 社区id
-     * @return 社区成员id列表
+     * 根据社区id查询群主
      */
     @Select("select user_id from community_user " +
-            "where community_id = #{communityID}")
+            "where community_id = #{communityID} and role = 0")
+    Long findCommunityOwner(long communityID);
+
+    /**
+     * 根据社区id查询管理员
+     */
+    @Select("select user_id from community_user " +
+            "where community_id = #{communityID} and role = 1")
+    List<Long> findCommunityManagers(long communityID);
+
+    /**
+     * 根据社区id查询普通用户
+     */
+    @Select("select user_id from community_user " +
+            "where community_id = #{communityID} and role = 2")
     List<Long> findCommunityMembers(long communityID);
 
     /**
@@ -131,4 +151,15 @@ public interface CommunityMapper extends BaseMapper<Community> {
             "WHERE cu.community_id IS NULL")
 
     List<Long> getTopTenCommunitiesNotJoined(long userId);
+
+    /**
+     * 查找用户是否在某一社区中
+     * @return boolean
+     */
+    @Select("SELECT COUNT(*) > 0 " +
+            "FROM community_user " +
+            "WHERE user_id = #{userId} AND community_id = #{communityId}")
+    Boolean getWhetherIn(long userId, long communityId);
+
+
 }

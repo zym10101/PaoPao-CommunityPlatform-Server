@@ -3,7 +3,6 @@ package com.mise.usercenter.service.impl;
 import cn.dev33.satoken.secure.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.mise.usercenter.domain.vo.CommunityVO;
 import com.mise.usercenter.client.CommunityClient;
 import com.mise.usercenter.client.PostClient;
 import com.mise.usercenter.domain.entity.Comment;
@@ -16,12 +15,9 @@ import com.mise.usercenter.utils.RedisCache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -268,6 +264,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<PostResponseVO> getAllPostsByCommunity(long communityId) {
+        R<List<Post>> r = postClient.getAllPosts(String.valueOf(communityId));
+        if (r.getCode() == 1) {
+            List<Post> posts = r.getData();
+            List<PostResponseVO> postResponseVOS = new ArrayList<>();
+            for (Post post : posts) {
+                PostResponseVO postResponseVO = new PostResponseVO();
+                postResponseVO.setPostId(post.getPostId().toString());
+                String name = communityClient.getCommunityById(post.getCommunityId()).getData().getName();
+                postResponseVO.setCommunityName(name);
+                postResponseVO.setIsPublic(post.getIsPublic());
+                postResponseVO.setTagList(post.getTagList());
+                postResponseVO.setTitle(post.getTitle());
+                postResponseVO.setContent(post.getContent());
+                postResponseVO.setCommentNum(post.getCommentNum().toString());
+                postResponseVO.setLikeNum(post.getLikeNum().toString());
+                postResponseVO.setDislikeNum(post.getDislikeNum().toString());
+                postResponseVO.setCreateTime(post.getCreateTime());
+                postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
+                User user = userMapper.selectById(post.getUserId());
+                postResponseVO.setUserName(user.getUserName());
+                postResponseVO.setPhoto(user.getPhoto());
+                postResponseVOS.add(postResponseVO);
+            }
+            return postResponseVOS;
+        }
+        return null;
+    }
+
+    @Override
     public List<CommentResponseVO> getComment(String postId) {
         R<List<Comment>> r = postClient.getComment(postId);
         if (r.getCode() == 1) {
@@ -326,4 +352,74 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public User getCommunityOwner(long communityID) {
+        Response<Long> r = communityClient.getCommunityOwner(communityID);
+        Long id = r.getData();
+        User user = new User();
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.lambda()
+                .eq(User::getUserId, id)
+                .select(User::getUserId, User::getUserName, User::getPhoto);
+        try {
+            user = userMapper.selectOne(wrapper);
+            if (user == null) {
+                log.error("No such userId: {}", id);
+            }
+        } catch (TooManyResultsException e) {
+            log.error("Duplicated userId: {}", id);
+        }
+        return user;
+    }
+
+    @Override
+    public List<User> getCommunityManagers(long communityID) {
+        Response<List<Long>> response = communityClient.getCommunityManagers(communityID);
+        List<Long> userIdList = response.getData();
+        List<User> userList = new ArrayList<>();
+        for (Long id : userIdList) { //根据userid查完整的user信息
+            QueryWrapper<User> wrapper = new QueryWrapper<>();
+            wrapper.lambda()
+                    .eq(User::getUserId, id)
+                    .select(User::getUserId, User::getUserName, User::getPhoto);
+            try {
+                User user = userMapper.selectOne(wrapper);
+                if (user == null) {
+                    log.error("No such userId: {}", id);
+                }
+                userList.add(user);
+            } catch (TooManyResultsException e) {
+                log.error("Duplicated userId: {}", id);
+                userList.add(null);
+            }
+        }
+        return userList;
+    }
+
+    @Override
+    public List<User> getCommunityMembers(long communityID) {
+        Response<List<Long>> response = communityClient.getCommunityMembers(communityID);
+        List<Long> userIdList = response.getData();
+        List<User> userList = new ArrayList<>();
+        for (Long id : userIdList) { //根据userid查完整的user信息
+            QueryWrapper<User> wrapper = new QueryWrapper<>();
+            wrapper.lambda()
+                    .eq(User::getUserId, id)
+                    .select(User::getUserId, User::getUserName, User::getPhoto);
+            try {
+                User user = userMapper.selectOne(wrapper);
+                if (user == null) {
+                    log.error("No such userId: {}", id);
+                }
+                userList.add(user);
+            } catch (TooManyResultsException e) {
+                log.error("Duplicated userId: {}", id);
+                userList.add(null);
+            }
+        }
+        return userList;
+    }
+
+
 }
