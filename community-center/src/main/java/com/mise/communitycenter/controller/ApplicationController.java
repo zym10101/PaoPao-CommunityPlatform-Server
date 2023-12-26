@@ -6,6 +6,7 @@ import com.mise.communitycenter.domain.vo.CommunityVO;
 import com.mise.communitycenter.domain.vo.R;
 import com.mise.communitycenter.domain.vo.Response;
 import com.mise.communitycenter.service.ApplicationService;
+import com.mise.communitycenter.service.CommunityService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +24,19 @@ public class ApplicationController {
 
     @Autowired
     private ApplicationService applicationService;
+    @Autowired
+    private CommunityService communityService;
 
     @GetMapping("/applyForCommunity")
     public Response applyForCommunity(@RequestParam long userID, @RequestParam long communityID) {
+        CommunityVO community = communityService.getCommunityById(communityID);
+        if(community.isPublic){
+            boolean re = communityService.addMember(communityID, userID, 2);
+            if(!re){
+                return Response.failed("申请加入社区失败");
+            }
+            return Response.success();
+        }
         boolean result = applicationService.applyForCommunity(userID, communityID);
         if(!result) {
             return Response.failed("申请加入社区失败");

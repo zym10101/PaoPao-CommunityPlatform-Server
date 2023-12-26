@@ -95,4 +95,16 @@ public interface CommunityService {
     CommunityVO getCommunityById(long communityId);
 
     List<CommunityVO> getAdminCommunitiesByAdminId(long adminId);
+
+    /**
+     * 获取人数前十的热门社区
+     * @return 社区列表
+     */
+    List<CommunityVO> getHotCommunities();
+
+    /**
+     * 获取人气较高的社区作为推荐社区，且要满足用户未加入
+     * @return 社区列表
+     */
+    List<CommunityVO> getRecommendedCommunities(long userId);
 }

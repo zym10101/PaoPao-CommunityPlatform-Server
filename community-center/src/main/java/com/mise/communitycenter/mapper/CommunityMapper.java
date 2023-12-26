@@ -109,4 +109,26 @@ public interface CommunityMapper extends BaseMapper<Community> {
             "and " +
             "user_id = #{userId}")
     boolean setAdmin(long community_id, long userId);
+
+    /**
+     * 选取人数排名前十的社区作为热门社区
+     * @return 社区id集合
+     */
+    @Select("SELECT community_id " +
+            "FROM community_user " +
+            "GROUP BY community_id " +
+            "ORDER BY COUNT(user_id) DESC " +
+            "LIMIT 10")
+    List<Long> getTopTenCommunities();
+
+    /**
+     * 选取出用户未加入的十个人数最多的社区作为推荐社区
+     *  @return 社区id集合
+     */
+    @Select("SELECT DISTINCT c.community_id " +
+            "FROM community_user c " +
+            "LEFT JOIN community_user cu ON c.community_id = cu.community_id AND cu.user_id = #{userId} " +
+            "WHERE cu.community_id IS NULL")
+
+    List<Long> getTopTenCommunitiesNotJoined(long userId);
 }

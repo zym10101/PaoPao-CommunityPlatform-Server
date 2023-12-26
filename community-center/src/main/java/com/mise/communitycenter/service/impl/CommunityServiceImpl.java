@@ -176,6 +176,28 @@ public class CommunityServiceImpl implements CommunityService {
         return res;
     }
 
+    @Override
+    public List<CommunityVO> getHotCommunities() {
+        List<CommunityVO> res = new ArrayList<>();
+        List<Long> communityIds = communityMapper.getTopTenCommunities();
+        for (Long communityId : communityIds) {
+            CommunityVO community = getCommunityById(communityId);
+            res.add(community);
+        }
+        return res;
+    }
+
+    @Override
+    public List<CommunityVO> getRecommendedCommunities(long userId) {
+        List<CommunityVO> res = new ArrayList<>();
+        List<Long> communityIds = communityMapper.getTopTenCommunitiesNotJoined(userId);
+        for (Long communityId : communityIds) {
+            CommunityVO community = getCommunityById(communityId);
+            res.add(community);
+        }
+        return res;
+    }
+
     public Long getLastCommunityId(String name) {
         Long lastCommunityId = communityMapper.findCommunityIdByName(name);
         if (lastCommunityId != null) {
