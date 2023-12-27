@@ -147,6 +147,11 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    public boolean cancelAdmin(long community_id, long userId) {
+        return communityMapper.cancelAdmin(community_id, userId);
+    }
+
+    @Override
     public CommunityVO getCommunityById(long communityId) {
         QueryWrapper<Community> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(Community::getCommunityId, communityId);

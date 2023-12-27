@@ -129,6 +129,15 @@ public class CommunityController {
         return Response.success();
     }
 
+    @GetMapping("/cancelAdmin")
+    public Response cancelAdmin(@RequestParam long communityId, @RequestParam long userId) {
+        boolean res = communityService.cancelAdmin(communityId, userId);
+        if(!res) {
+            return Response.failed("移除管理员失败");
+        }
+        return Response.success();
+    }
+
     @GetMapping("/getAdminCommunitiesByAdminId")
     public Response getAdminCommunitiesByAdminId(@RequestParam long adminId) {
         List<CommunityVO> adminCommunitiesByAdminId = communityService.getAdminCommunitiesByAdminId(adminId);
