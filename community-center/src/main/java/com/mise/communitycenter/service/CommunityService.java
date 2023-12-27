@@ -90,6 +90,8 @@ public interface CommunityService {
      */
     boolean setAdmin(long community_id, long userId);
 
+    boolean cancelAdmin(long community_id, long userId);
+
 
     /**
      * 根据社区id查询社区信息

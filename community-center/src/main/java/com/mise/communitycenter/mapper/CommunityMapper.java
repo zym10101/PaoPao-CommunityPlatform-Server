@@ -130,6 +130,13 @@ public interface CommunityMapper extends BaseMapper<Community> {
             "user_id = #{userId}")
     boolean setAdmin(long community_id, long userId);
 
+    @Update("update community_user " +
+            "set role = 2 " +
+            "where community_id = #{community_id} " +
+            "and " +
+            "user_id = #{userId}")
+    boolean cancelAdmin(long community_id, long userId);
+
     /**
      * 选取人数排名前十的社区作为热门社区
      * @return 社区id集合
