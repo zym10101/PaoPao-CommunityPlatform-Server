@@ -6,7 +6,7 @@ spring:
     mongodb:
       username: root
       password: mise2023_njuse123
-      host: 124.221.215.45      # MongoDB 主机地址
+      host: mongodb      # MongoDB 主机地址
       port: 27017          # MongoDB 端口
       database: postcenter  # 数据库名称
   # 应用名称
@@ -15,7 +15,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 124.221.215.45:8848
+        server-addr: nacos:8848
     sentinel:
       transport:
         dashboard: 124.221.215.45:9088

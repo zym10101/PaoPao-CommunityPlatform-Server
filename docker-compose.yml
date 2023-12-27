@@ -1,10 +1,12 @@
 version: "2.10.2"
 services:
   nacos:
-    image: nacos/nacos-server:latest
+    image: nacos/nacos-server:v2.2.3
     container_name: nacos
     ports:
       - 8848:8848
+      - 9848:9848
+      - 9849:9849
     environment:
       - MODE=standalone
     restart: always
@@ -45,7 +47,7 @@ services:
       - /usr/local/mise2023/redis.conf:/etc/redis/redis.conf
       - /usr/local/mise2023/redis/data:/data
       - /usr/local/mise2023/redis/sysctl.conf:/etc/sysctl.conf
-    command: ["redis-server", "--requirepass", "mise2023_njuse123."]
+    command: ["redis-server", "--requirepass", "mise2023_njuse123"]
   community-center:
     image: community-center:latest
     container_name: community-center

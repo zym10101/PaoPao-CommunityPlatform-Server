@@ -4,7 +4,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 124.221.215.45:8848
+        server-addr: nacos:8848
   #网关
     gateway:
       routes: #路由配置

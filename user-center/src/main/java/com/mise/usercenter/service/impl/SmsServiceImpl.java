@@ -54,6 +54,8 @@ public class SmsServiceImpl implements SmsService {
         SendSmsResponse response;
         try {
             response = client.sendSms(request);
+            System.out.println(111);
+            System.out.println(response.body.code);
             if (response.body.code.equals("OK")) {
                 redisCache.setCacheObject(phone, String.valueOf(code), 60 * 5L, TimeUnit.SECONDS);
                 return true;
