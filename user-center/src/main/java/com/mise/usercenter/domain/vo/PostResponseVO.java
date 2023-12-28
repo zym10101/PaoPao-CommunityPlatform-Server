@@ -15,6 +15,7 @@ public class PostResponseVO implements Serializable {
     private List<String> tagList;
     private String title;
     private String content;
+    // 用户头像
     private String photo;
     private String commentNum;
     private String likeNum;
@@ -22,4 +23,6 @@ public class PostResponseVO implements Serializable {
     private String userName;
     private Date createTime;
     private Date lastUpdateTime;
+    // 帖子图片
+    private String postPicture;
 }

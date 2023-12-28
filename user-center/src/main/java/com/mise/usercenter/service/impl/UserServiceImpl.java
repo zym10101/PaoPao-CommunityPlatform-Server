@@ -184,8 +184,9 @@ public class UserServiceImpl implements UserService {
                 postResponseVO.setDislikeNum(post.getDislikeNum().toString());
                 postResponseVO.setCreateTime(post.getCreateTime());
                 postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
-                postResponseVO.setPhoto(post.getPhoto());
+                postResponseVO.setPostPicture(post.getPhoto());
                 User user = userMapper.selectById(post.getUserId());
+                postResponseVO.setPhoto(user.getPhoto());
                 postResponseVO.setUserName(user.getUserName());
                 postResponseVOS.add(postResponseVO);
             }
@@ -214,8 +215,9 @@ public class UserServiceImpl implements UserService {
                 postResponseVO.setDislikeNum(post.getDislikeNum().toString());
                 postResponseVO.setCreateTime(post.getCreateTime());
                 postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
-                postResponseVO.setPhoto(post.getPhoto());
+                postResponseVO.setPostPicture(post.getPhoto());
                 User user = userMapper.selectById(post.getUserId());
+                postResponseVO.setPhoto(user.getPhoto());
                 postResponseVO.setUserName(user.getUserName());
                 postResponseVOS.add(postResponseVO);
             }
@@ -253,8 +255,9 @@ public class UserServiceImpl implements UserService {
                 postResponseVO.setDislikeNum(post.getDislikeNum().toString());
                 postResponseVO.setCreateTime(post.getCreateTime());
                 postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
-                postResponseVO.setPhoto(post.getPhoto());
+                postResponseVO.setPostPicture(post.getPhoto());
                 User user = userMapper.selectById(post.getUserId());
+                postResponseVO.setPhoto(user.getPhoto());
                 postResponseVO.setUserName(user.getUserName());
                 postResponseVOS.add(postResponseVO);
             }
@@ -283,8 +286,9 @@ public class UserServiceImpl implements UserService {
                 postResponseVO.setDislikeNum(post.getDislikeNum().toString());
                 postResponseVO.setCreateTime(post.getCreateTime());
                 postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
-                postResponseVO.setPhoto(post.getPhoto());
+                postResponseVO.setPostPicture(post.getPhoto());
                 User user = userMapper.selectById(post.getUserId());
+                postResponseVO.setPhoto(user.getPhoto());
                 postResponseVO.setUserName(user.getUserName());
                 postResponseVOS.add(postResponseVO);
             }
