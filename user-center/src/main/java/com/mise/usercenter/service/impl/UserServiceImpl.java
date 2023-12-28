@@ -184,9 +184,9 @@ public class UserServiceImpl implements UserService {
                 postResponseVO.setDislikeNum(post.getDislikeNum().toString());
                 postResponseVO.setCreateTime(post.getCreateTime());
                 postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
+                postResponseVO.setPhoto(post.getPhoto());
                 User user = userMapper.selectById(post.getUserId());
                 postResponseVO.setUserName(user.getUserName());
-                postResponseVO.setPhoto(user.getPhoto());
                 postResponseVOS.add(postResponseVO);
             }
             return postResponseVOS;
@@ -214,9 +214,9 @@ public class UserServiceImpl implements UserService {
                 postResponseVO.setDislikeNum(post.getDislikeNum().toString());
                 postResponseVO.setCreateTime(post.getCreateTime());
                 postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
+                postResponseVO.setPhoto(post.getPhoto());
                 User user = userMapper.selectById(post.getUserId());
                 postResponseVO.setUserName(user.getUserName());
-                postResponseVO.setPhoto(user.getPhoto());
                 postResponseVOS.add(postResponseVO);
             }
             return postResponseVOS;
@@ -253,9 +253,9 @@ public class UserServiceImpl implements UserService {
                 postResponseVO.setDislikeNum(post.getDislikeNum().toString());
                 postResponseVO.setCreateTime(post.getCreateTime());
                 postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
+                postResponseVO.setPhoto(post.getPhoto());
                 User user = userMapper.selectById(post.getUserId());
                 postResponseVO.setUserName(user.getUserName());
-                postResponseVO.setPhoto(user.getPhoto());
                 postResponseVOS.add(postResponseVO);
             }
             return postResponseVOS;
@@ -283,9 +283,9 @@ public class UserServiceImpl implements UserService {
                 postResponseVO.setDislikeNum(post.getDislikeNum().toString());
                 postResponseVO.setCreateTime(post.getCreateTime());
                 postResponseVO.setLastUpdateTime(post.getLastUpdateTime());
+                postResponseVO.setPhoto(post.getPhoto());
                 User user = userMapper.selectById(post.getUserId());
                 postResponseVO.setUserName(user.getUserName());
-                postResponseVO.setPhoto(user.getPhoto());
                 postResponseVOS.add(postResponseVO);
             }
             return postResponseVOS;
