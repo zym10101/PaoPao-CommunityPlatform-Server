@@ -72,3 +72,11 @@ PaoPao团队在开发过程中经历了多次版本迭代，项目开发的内�
 这是服务器的docker运行情况，移动端apk文件也已经制作出来，已经向部分同学发布公测。
 ![QQ_1725802284756](https://github.com/user-attachments/assets/762ff8de-7a03-41fb-8d5b-ac96f630992b)
 
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=yesmore/inke&type=Date)](https://star-history.com/#yesmore/inke&Date)
+
+<a href="https://www.producthunt.com/posts/inke?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-inke">
+  <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=419235&theme=light" alt="Product Hunt"/>
+</a>
